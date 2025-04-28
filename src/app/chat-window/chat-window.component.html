@@ -1,0 +1,61 @@
+<div class="chat-container">
+  <div class="chat-body" #chatBody>
+    <div
+      *ngFor="let message of messages$ | async"
+      [ngClass]="{
+        message: true,
+        mine: isMyMessage(message.senderId),
+        theirs: !isMyMessage(message.senderId),
+        bot: message.senderId === 'bot_fantacalcio'
+      }"
+    >
+      <div class="meta-line">
+        <!-- Mostra l'icona bot se è un messaggio del bot -->
+        <span class="icon" *ngIf="message.senderId === 'bot_fantacalcio'"
+          >🤖</span
+        >
+        <span class="meta">{{ getLabel(message.senderId) }}</span>
+        <span class="timestamp">
+          {{ message.timestamp?.toDate() | date : "dd/MM/yyyy HH:mm" }}
+        </span>
+      </div>
+
+      <div class="bubble" [innerHTML]="message.content | smartText"></div>
+
+      <!-- Se è un messaggio del bot con opzioni -->
+      <div
+        *ngIf="message.senderId === 'bot_fantacalcio' && message.options"
+        class="bot-options"
+      >
+        <button
+          *ngFor="let opt of message.options"
+          (click)="onBotOptionSelected(opt.next)"
+        >
+          {{ opt.text }}
+        </button>
+      </div>
+    </div>
+    <div *ngIf="botTyping" class="bot-typing">🤖 Fantabot sta scrivendo...</div>
+  </div>
+
+  <button
+    *ngIf="isOperator && showScrollButton"
+    class="scroll-down"
+    (click)="scrollToBottom()"
+    aria-label="Scroll giù"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+      <path
+        d="M440-800v487L216-537l-56 57 320 320 320-320-56-57-224 224v-487h-80Z"
+      />
+    </svg>
+  </button>
+
+  <div class="chat-footer">
+    <message-input
+      *ngIf="chatId"
+      [chatId]="chatId"
+      (messageSent)="scrollToBottom()"
+    ></message-input>
+  </div>
+</div>

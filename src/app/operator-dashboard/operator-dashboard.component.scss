@@ -1,0 +1,428 @@
+.dashboard-container {
+  display: flex;
+  height: calc(100vh - 120px);
+  padding: 1rem;
+  gap: 1rem;
+  box-sizing: border-box;
+  margin-top: 70px;
+}
+
+/* Box comune */
+.box {
+  background-color: white;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Chat list */
+.chat-list {
+  min-width: 50px;
+  max-width: 300px;
+}
+
+.chat-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chat-list li {
+  cursor: pointer;
+  padding: 0.5rem;
+  border-bottom: 1px solid #eee;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.chat-list li:hover {
+  background-color: #e4f9ec;
+}
+
+.chat-list li.active {
+  background-color: #d0f0d8;
+  font-weight: bold;
+}
+
+/* Drag handle */
+.resizer {
+  width: 6px;
+  cursor: ew-resize;
+  background-color: #ccc;
+  height: 100%;
+  align-self: stretch;
+  border-radius: 3px;
+}
+
+/* chat-detail */
+.chat-detail {
+  flex: 0 0 auto;
+  min-width: 200px;
+  max-width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-detail app-chat-window {
+  flex: 1;
+  overflow: auto;
+  max-width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Extra panel */
+.extra-panel {
+  flex-grow: 1;
+  min-width: 180px;
+}
+
+/* Badge */
+.badge {
+  background-color: #4caf50;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-left: 8px;
+}
+
+/* Collapse / Reopen */
+.collapse-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: none;
+  background: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #888;
+}
+
+.reopen-btn,
+.reopen-btn-secondary {
+  position: fixed;
+  bottom: 10px;
+  z-index: 999;
+  background: #4caf50;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.reopen-btn {
+  right: 10px;
+}
+
+.reopen-btn-secondary {
+  right: 110px;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 15px solid white;
+  border-radius: 8px 8px 0 0;
+  font-weight: bold;
+}
+
+.chat-header .chat-user {
+  font-size: 1.5rem;
+}
+
+.chat-header .chat-controls button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+.chat-header .chat-controls button:hover {
+  opacity: 0.8;
+}
+
+.chat-header-row {
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.chat-options-menu button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Chat dot list */
+.chat-dot-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-dot-list li {
+  cursor: pointer;
+  text-align: center;
+}
+
+.chat-dot-list li .dot {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: auto;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.chat-dot-list li .dot.unread {
+  background-color: #e0f7e9;
+  border-color: #4caf50;
+  color: #2e7d32;
+}
+
+.chat-dot-list li.active .dot {
+  border-color: #1e7f3e;
+  background-color: #c8e6c9;
+  color: #1b5e20;
+}
+
+.chat-dot-list li:hover .dot {
+  background-color: #d6d6d6;
+}
+
+/* Bottoni azioni chat */
+.chat-btn {
+  font-size: 0.9rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+.chat-btn.archive {
+  background-color: #e0f7e9;
+  color: #1e7f3e;
+}
+
+.chat-btn.archive:hover {
+  background-color: #c5efd8;
+}
+
+.chat-btn.delete {
+  background-color: #ffe6e6;
+  color: #c62828;
+}
+
+.chat-btn.delete:hover {
+  background-color: #fdd4d4;
+}
+
+/* Stato online toggle */
+.status-toggle button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  color: black;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+/* --- CHAT BLOCK MANAGEMENT --- */
+
+/* Ricerca Chat Block */
+.chat-block-search {
+  width: 50%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+/* Lista Chat Block */
+.chat-block-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Singolo Chat Block */
+.chat-block-item {
+  background-color: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.chat-block-item:hover {
+  background-color: #f0f8f5;
+}
+
+/* Header Chat Block: Nome + Stella */
+.chat-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Nome del Chat Block */
+.chat-block-name {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Stella preferiti */
+.star-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: gold;
+}
+
+/* Bottone invia */
+.send-btn {
+  margin-top: 6px;
+  width: 100%;
+  padding: 6px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.send-btn:hover {
+  background-color: #43a047;
+}
+
+/* Bottone nuovo Chat Block */
+.new-chat-block-btn {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.new-chat-block-btn:hover {
+  background-color: #1976d2;
+}
+
+/* Form Chat Block */
+.chat-block-form {
+  margin-top: 15px;
+}
+
+.chat-block-input,
+.chat-block-textarea {
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.chat-block-form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.save-btn,
+.cancel-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.save-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.preview-textarea {
+  width: 100%;
+  height: 120px;
+  margin: 1rem 0;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  resize: none;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .extra-panel {
+    display: none;
+  }
+  .reopen-btn,
+  .reopen-btn-secondary {
+    display: none;
+  }
+}

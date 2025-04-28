@@ -1,0 +1,101 @@
+/* Stile base del form */
+.input-form {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.75rem 1%;
+  border-top: 1px solid #ccc;
+  background: #ffffff;
+  z-index: 10;
+}
+
+/* Quando in modalità standalone, lo fissi in basso allo schermo */
+.fixed-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 98%;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+  gap: 0.5rem;
+}
+
+/* Textarea responsive */
+.message-textarea {
+  flex: 1;
+  resize: none;
+  overflow: hidden;
+  min-height: 44px;
+  max-height: 200px;
+  padding: 0.8rem 1rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background: #f4faf6;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border 0.2s;
+  width: 90%;
+}
+
+.message-textarea:focus {
+  border-color: #1e7f3e;
+  outline: none;
+}
+
+/* Pulsante invio */
+.send-btn {
+  background: #1e7f3e;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contenitore dei messaggi */
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  padding-bottom: 120px; /* spazio per input-form fisso */
+  scroll-behavior: smooth;
+}
+
+.with-footer-padding {
+  padding-bottom: 200px; /* 👈 spazio per il box fisso */
+}
+
+/* Modalità mobile: miglioramenti specifici */
+@media (max-width: 600px) {
+  .input-form {
+    padding: 0.5rem 0.75rem;
+    gap: 1rem;
+  }
+
+  .message-textarea {
+    font-size: 0.95rem;
+    padding: 0.3rem 0.75rem;
+  }
+
+  .send-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+    margin-right: 20px;
+  }
+
+  .fixed-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 98%;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+    gap: 0.5rem;
+  }
+}

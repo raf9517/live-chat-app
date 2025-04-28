@@ -1,0 +1,23 @@
+<form
+  (submit)="sendMessage(); $event.preventDefault()"
+  [ngClass]="{
+    'input-form': true,
+    'fixed-footer': standaloneMode,
+    'with-footer-padding': standaloneMode
+  }"
+>
+  <textarea
+    class="message-textarea"
+    [(ngModel)]="message"
+    name="message"
+    placeholder="Scrivi un messaggio..."
+    rows="1"
+    (input)="autoResize($event)"
+    required
+  ></textarea>
+  <button type="submit" class="send-btn" aria-label="Invia messaggio">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <path d="M4 20L20 12L4 4V10L16 12L4 14V20Z" fill="currentColor" />
+    </svg>
+  </button>
+</form>

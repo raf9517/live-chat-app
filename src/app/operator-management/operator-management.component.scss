@@ -1,0 +1,292 @@
+/* --- LAYOUT CONTAINER --- */
+.management-container {
+  display: flex;
+  height: calc(100vh - 120px);
+  padding: 1rem;
+  gap: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 70px;
+}
+
+/* --- OPERATORI --- */
+.operators-section {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  min-width: 200px;
+  width: 15%; /* Ridotto */
+  display: flex;
+  flex-direction: column;
+}
+
+.operators-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.operator-box {
+  background: #f9f9f9;
+  border: 1px solid #349c5b;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column; /* Dati in colonna */
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.operator-box:hover {
+  background: #f1f1f1;
+}
+
+.operator-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.operator-info {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* --- CHAT ATTIVE --- */
+.active-chats-section {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  width: 55%; /* Più grande */
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-actions-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  gap: 1rem; /* Più spazio tra elementi */
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee; /* Sottolineatura leggera */
+}
+
+.left-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Stile più moderno per select */
+.right-controls select {
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  font-size: 0.9rem;
+  appearance: none; /* Rimuove le frecce brutte native */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%204%205%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M2%205L0%200h4z%22/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 8px 10px;
+}
+
+.chats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.chat-box {
+  background: #f9f9f9;
+  border: 1px solid #349c5b;
+  border-radius: 12px;
+  padding: 1rem;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.chat-box:hover {
+  background: #f1f1f1;
+}
+
+.chat-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.chat-content p,
+.chat-content small {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.chat-box input[type="checkbox"] {
+  margin: 0;
+}
+
+/* --- PAGINAZIONE --- */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* --- BOTTONI --- */
+.small-btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 600;
+}
+
+.primary {
+  background: #e0f7e9;
+  color: #1e7f3e;
+}
+
+.primary:hover {
+  background: #c5efd8;
+}
+
+.danger {
+  background: #ffe6e6;
+  color: #c62828;
+}
+
+.danger:hover {
+  background: #fdd4d4;
+}
+
+/* --- SEZIONE "TUTTE LE CHAT" --- */
+.chats-section {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+  min-width: 220px;
+  width: 30%; /* Ridotto del 20% */
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- BARRA DI RICERCA --- */
+.search-container {
+  margin-bottom: 1rem;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 12px;
+  border: 1px solid #349c5b;
+}
+
+/* --- TITOLI SEZIONE --- */
+section h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+/* --- VERSIONE TABLET --- */
+@media (max-width: 1024px) {
+  .management-container {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .operators-section {
+    width: 25%; /* Più largo rispetto al desktop */
+  }
+
+  .active-chats-section {
+    width: 45%; /* Un po' ridotto */
+  }
+
+  .chats-section {
+    width: 30%;
+  }
+
+  /* Migliora la lettura delle chat su tablet */
+  .chat-content {
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* --- VERSIONE SMARTPHONE --- */
+@media (max-width: 768px) {
+  .management-container {
+    flex-direction: column;
+    height: auto; /* Non forziamo più l'altezza */
+  }
+
+  .operators-section,
+  .active-chats-section,
+  .chats-section {
+    width: 100%; /* Tutto incolonnato */
+    min-width: unset;
+  }
+
+  /* Box chat più compatti su telefono */
+  .chat-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .chat-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .chat-content p,
+  .chat-content small {
+    white-space: normal; /* Su mobile permettiamo il capo */
+    word-break: break-word;
+  }
+
+  /* Bottoni paginazione su mobile */
+  .pagination-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .chat-actions-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

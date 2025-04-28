@@ -1,0 +1,20 @@
+<div class="admin-container">
+  <h2>Gestione Utenti</h2>
+
+  <form (ngSubmit)="createUser()">
+    <input [(ngModel)]="email" name="email" placeholder="Email" required />
+    <select [(ngModel)]="role" name="role">
+      <option value="operator">Operatore</option>
+      <option value="admin">Admin</option>
+    </select>
+    <button type="submit">➕ Crea Utente</button>
+  </form>
+
+  <h3>Lista Utenti</h3>
+  <ul>
+    <li *ngFor="let user of users">
+      {{ user.email }} ({{ user.role }})
+      <button (click)="deleteUser(user.uid)">🗑 Elimina</button>
+    </li>
+  </ul>
+</div>

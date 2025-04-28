@@ -1,0 +1,156 @@
+.layout-column {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* HEADER MODERNO */
+.header {
+  position: fixed;
+  top: 20px; /* distanza dal bordo superiore */
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px); /* spazio ai lati */
+  max-width: 1400px;
+  background: #349c5b;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* CONTENUTO DENTRO HEADER */
+.header-operator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* MENU SINISTRO */
+.left-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* BOTTONE MENU */
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+/* PROFILO DESTRO */
+.right-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.right-profile .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+/* USERNAME CENTRATO */
+.header-user {
+  margin: 0 auto;
+  text-align: center;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+/* TITOLO */
+h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+/* ICONA CHAT */
+.chat-icon {
+  fill: white;
+}
+
+/* MENU ORIZZONTALE SOTTO HEADER */
+.horizontal-menu {
+  position: fixed;
+  top: 100px; /* header height + distanza */
+  left: 15%;
+  transform: translateX(-50%);
+  // width: calc(100% - 40px);
+  max-width: 1400px;
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+  padding: 0.75rem 2rem;
+  display: flex;
+  gap: 20px;
+  z-index: 999;
+  flex-wrap: wrap;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform: translateY(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.horizontal-menu.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* VOCE MENU */
+.menu-item {
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover,
+  &.active {
+    background-color: #e7f4ec;
+    color: #1e7f3e;
+  }
+}
+
+/* CONTENUTO PRINCIPALE */
+.main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  background: #f7f8fa;
+  box-sizing: border-box;
+  height: 60%;
+  padding: 2rem;
+  margin-top: 0px; /* header + menu */
+
+  &.login-page {
+    margin-top: 0;
+    height: 100vh;
+    padding: 0; /* login tutto schermo */
+  }
+  &.chat-page {
+    margin-top: 70px;
+    height: 100vh;
+    padding: 0; /* login tutto schermo */
+  }
+}

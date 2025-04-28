@@ -1,0 +1,114 @@
+<h4>Nodi esistenti:</h4>
+
+<div cdkDropList (cdkDropListDropped)="onDrop($event)" class="sortable-list">
+  <div class="node-item" *ngFor="let n of nodes" cdkDrag>
+    <button (click)="loadNode(n.nodeId)">🔍 {{ n.name }}</button>
+    <button (click)="deleteNode(n.nodeId)">🗑️ Elimina</button>
+    <strong>{{ n.id }}</strong>
+    <span *ngIf="n.escalate">👤</span>
+    <div>{{ n.text | slice : 0 : 100 }}...</div>
+    <div *ngIf="n.options?.length">
+      <div *ngFor="let opt of n.options">- {{ opt.text }}</div>
+    </div>
+  </div>
+
+  <hr />
+
+  <h2>Editor Flusso Bot</h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <label>🆔 Nodo ID</label>
+    <input formControlName="nodeId" placeholder="start, mercato..." />
+
+    <hr />
+
+    <label>📝 Testo bot</label>
+    <textarea formControlName="text"></textarea>
+
+    <label>
+      <input type="checkbox" formControlName="escalate" />
+      Passa all'operatore se selezionato
+    </label>
+
+    <label>
+      <input type="checkbox" formControlName="expectInput" />
+      Aspetta risposta scritta dell’utente (expectInput)
+    </label>
+
+    <div *ngIf="form.get('expectInput')?.value">
+      <label for="next">Nodo successivo (next)</label>
+      <input formControlName="next" placeholder="ID del nodo successivo" />
+    </div>
+
+    <hr />
+
+    <div class="field">
+      <label>🕘 Ora disponibile da (HH:MM)</label>
+      <input type="time" formControlName="availableFrom" />
+    </div>
+
+    <div class="field">
+      <label>🕙 Ora disponibile fino (HH:MM)</label>
+      <input type="time" formControlName="availableTo" />
+    </div>
+
+    <div class="field">
+      <label>🚫 Messaggio fuori orario</label>
+      <textarea
+        formControlName="unavailableText"
+        placeholder="Operatore disponibile dalle 9 alle 20."
+      ></textarea>
+    </div>
+
+    <hr />
+
+    <div class="field">
+      <label for="keywords">🔑 Parole chiave</label>
+      <div class="keyword-list">
+        <span
+          *ngFor="let k of keywords.controls; let i = index"
+          class="keyword"
+        >
+          {{ k.value }}
+          <button type="button" (click)="removeKeyword(i)">❌</button>
+        </span>
+      </div>
+
+      <input
+        [(ngModel)]="newKeyword"
+        [ngModelOptions]="{ standalone: true }"
+        placeholder="Nuova keyword..."
+      />
+      <button (click)="addKeyword()">➕ Aggiungi</button>
+    </div>
+
+    <hr />
+
+    <h3>🎯 Opzioni</h3>
+    <div formArrayName="options" class="bot-options">
+      <div
+        *ngFor="let opt of options.controls; let i = index"
+        [formGroupName]="i"
+      >
+        <input formControlName="text" placeholder="Testo pulsante" />
+        <input formControlName="next" placeholder="Prossimo nodo ID" />
+        <button type="button" class="danger" (click)="removeOption(i)">
+          ❌
+        </button>
+      </div>
+    </div>
+
+    <button type="button" class="secondary" (click)="addOption()">
+      ➕ Aggiungi opzione
+    </button>
+    <br /><br />
+    <hr />
+    <button type="submit" [disabled]="form.invalid">💾 Salva nodo</button>
+    <button type="button" class="secondary" (click)="newNode()">
+      🆕 Nuovo nodo
+    </button>
+    <button type="button" (click)="simulateNode()">
+      🧪 Simula in chat_test
+    </button>
+  </form>
+</div>

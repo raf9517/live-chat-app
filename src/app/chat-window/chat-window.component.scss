@@ -1,0 +1,247 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #e9f5ec; /* verde chiaro */
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+}
+
+/* Corpo chat */
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Messaggio base */
+.message {
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Allineamento */
+.mine {
+  align-self: flex-end;
+  text-align: right;
+  margin-top: 20px;
+}
+
+.theirs {
+  align-self: flex-start;
+  text-align: left;
+  margin-top: 20px;
+}
+
+/* Righe sopra le bubble */
+.meta-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+/* Iconcina */
+.icon {
+  font-size: 0.85rem;
+}
+
+/* Nome utente */
+.meta {
+  font-size: 0.75rem;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Messaggi */
+.bubble {
+  padding: 0.7rem 1rem;
+  border-radius: 18px;
+  background: #ffffff; /* Bianco pieno */
+  color: #333333; /* Grigio scuro per testo */
+  align-self: flex-start;
+  display: inline-block;
+  max-width: 100%;
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+
+.bubble a {
+  color: #337ab7;
+  text-decoration: underline;
+  word-break: break-word;
+
+  &:hover {
+    color: #23527c;
+  }
+}
+
+.inline-img {
+  max-width: 220px;
+  margin-top: 4px;
+  border-radius: 6px;
+  display: block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Messaggio mio (operatore) */
+.mine .bubble {
+  background: #d1e7dd; /* Verde acqua chiaro */
+  color: #004d40; /* Verde bottiglia per il testo */
+  align-self: flex-end;
+}
+
+/* Footer */
+.chat-footer {
+  background: #ffffff;
+  padding: 0.75rem 1rem;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+}
+
+.meta-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.meta {
+  font-size: 0.75rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.timestamp {
+  font-size: 0.7rem;
+  color: #888;
+}
+
+.bot-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+
+  button {
+    background-color: #337ab7;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background-color: #2b5d9c;
+    }
+  }
+}
+
+/* 🔁 Messaggi del bot */
+.message.bot {
+  align-self: flex-start;
+  margin-top: 20px;
+}
+
+.message.bot .bubble {
+  background-color: #e0f7fa; /* Azzurro acqua chiarissimo */
+  color: #006064; /* Blu petrolio */
+  font-style: italic;
+}
+
+.message.bot .meta-line .icon {
+  font-size: 1rem;
+  color: #337ab7;
+}
+
+.message.bot .meta {
+  color: #337ab7;
+}
+
+/* 🔖 Badge BOT accanto al nome (opzionale) */
+.bot-badge {
+  background: #337ab7;
+  color: white;
+  font-size: 10px;
+  padding: 2px 4px;
+  margin-left: 6px;
+  border-radius: 4px;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+.bot-typing::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  text-align: left;
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+  100% {
+    content: "";
+  }
+}
+
+.scroll-down {
+  position: absolute;
+  bottom: 138px; /* distanza dal fondo */
+  right: 32px; /* distanza dal lato destro */
+  background: rgba(30, 127, 62, 0.1);
+  color: #1e7f3e;
+  border: 1px solid #1e7f3e;
+  padding: 6px;
+  border-radius: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(23, 102, 52, 0.15);
+  }
+
+  svg {
+    fill: #1e7f3e;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .chat-container {
+    padding-bottom: 35px;
+  }
+}

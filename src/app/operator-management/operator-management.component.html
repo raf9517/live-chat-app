@@ -1,0 +1,218 @@
+<div class="management-container">
+  <!-- Box Operatori -->
+  <section class="operators-section">
+    <h2>Operatori</h2>
+    <div class="operators-list">
+      <div
+        class="operator-box"
+        *ngFor="let operator of operators"
+        cdkDropList
+        [cdkDropListConnectedTo]="['chatsToAssignList']"
+        [cdkDropListData]="[]"
+        (cdkDropListDropped)="drop($event, operator.uid)"
+      >
+        <div class="operator-header">
+          <span [ngClass]="operator.online ? 'badge-online' : 'badge-offline'">
+            {{ operator.online ? "🟢 Online" : "🔴 Offline" }}
+          </span>
+          <strong>{{ operator.email }}</strong>
+        </div>
+        <div class="operator-info">
+          Ticket assegnati: {{ countAssignedTickets(operator.uid) }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Box Chat Attive -->
+  <section class="active-chats-section">
+    <h2>Chat Attive</h2>
+
+    <div class="chat-actions-top">
+      <div class="left-controls">
+        <input
+          type="checkbox"
+          [checked]="areAllChatsSelected()"
+          (change)="toggleSelectAllChats($event)"
+        />
+        <label>Seleziona Tutte</label>
+      </div>
+
+      <div class="right-controls">
+        <select [(ngModel)]="filterOperatorUid">
+          <option value="">Tutte</option>
+          <option value="waiting">Solo in attesa</option>
+          <option *ngFor="let operator of operators" [value]="operator.uid">
+            {{ operator.email }}
+          </option>
+        </select>
+
+        <select [(ngModel)]="selectedOperatorUid">
+          <option value="" disabled selected>Operatore</option>
+          <option *ngFor="let operator of operators" [value]="operator.uid">
+            {{ operator.email }}
+          </option>
+        </select>
+
+        <button
+          class="small-btn primary"
+          (click)="assignSelectedChats()"
+          [disabled]="!selectedOperatorUid || selectedChats.size === 0"
+        >
+          🎯 Assegna
+        </button>
+
+        <button
+          class="small-btn"
+          (click)="archiveChats()"
+          [disabled]="selectedChats.size === 0"
+        >
+          📦 Archivia
+        </button>
+
+        <button
+          class="small-btn danger"
+          (click)="deleteChats()"
+          [disabled]="selectedChats.size === 0"
+        >
+          🗑 Elimina
+        </button>
+      </div>
+    </div>
+
+    <!-- Lista Chat Attive -->
+    <div class="chats-list">
+      <div class="chat-box" *ngFor="let chat of paginatedFilteredActiveChats()">
+        <input
+          type="checkbox"
+          (change)="toggleSelection(chat.id)"
+          [checked]="selectedChats.has(chat.id)"
+        />
+        <div class="chat-content">
+          <p><strong>ID:</strong> {{ chat.id }}</p>
+          <p>
+            <strong>Assegnata a:</strong>
+            {{ findOperatorEmail(chat.assignedTo) }}
+          </p>
+          <small
+            >Ultimo aggiornamento:
+            {{ chat.lastUpdated?.toDate() | date : "dd/MM/yyyy HH:mm" }}</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginazione Chat Attive -->
+    <div class="pagination-controls">
+      <label>Mostra:</label>
+      <select [(ngModel)]="pageSize" (change)="resetPage()">
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="30">30</option>
+      </select>
+
+      <button
+        class="small-btn"
+        (click)="previousPage()"
+        [disabled]="page === 1"
+      >
+        ⬅️
+      </button>
+      <span>Pagina {{ page }}</span>
+      <button
+        class="small-btn"
+        (click)="nextPage()"
+        [disabled]="!hasNextPage()"
+      >
+        ➡️
+      </button>
+    </div>
+  </section>
+
+  <!-- Box Chat da Assegnare -->
+  <section class="chats-section">
+    <h2>Tutte le Chat</h2>
+
+    <!-- Barra Azioni -->
+    <div class="chat-actions-top">
+      <div class="left-controls">
+        <input
+          type="checkbox"
+          [checked]="areAllChatsSelected()"
+          (change)="toggleSelectAllChats($event)"
+        />
+        <label>Seleziona Tutte</label>
+      </div>
+
+      <div class="right-controls">
+        <select [(ngModel)]="selectedOperatorUid">
+          <option value="" disabled selected>Operatore</option>
+          <option *ngFor="let operator of operators" [value]="operator.uid">
+            {{ operator.email }}
+          </option>
+        </select>
+
+        <button
+          class="small-btn primary"
+          (click)="assignSelectedChats()"
+          [disabled]="!selectedOperatorUid || selectedChats.size === 0"
+        >
+          🎯 Assegna
+        </button>
+      </div>
+    </div>
+
+    <!-- Ricerca -->
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="🔎 Cerca chat per ID..."
+        [(ngModel)]="searchTermAssign"
+      />
+    </div>
+
+    <!-- Lista Chat -->
+    <div class="chats-list">
+      <div class="chat-box" *ngFor="let chat of paginatedChatsToAssign()">
+        <input
+          type="checkbox"
+          (change)="toggleSelection(chat.id)"
+          [checked]="selectedChats.has(chat.id)"
+        />
+        <div class="chat-content">
+          <p><strong>ID:</strong> {{ chat.id }}</p>
+          <small
+            >Ultimo aggiornamento:
+            {{ chat.lastUpdated?.toDate() | date : "dd/MM/yyyy HH:mm" }}</small
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginazione -->
+    <div class="pagination-controls">
+      <label>Mostra:</label>
+      <select [(ngModel)]="pageSizeAssign" (change)="resetPageAssign()">
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="30">30</option>
+      </select>
+
+      <button
+        class="small-btn"
+        (click)="previousPageAssign()"
+        [disabled]="pageAssign === 1"
+      >
+        ⬅️
+      </button>
+      <span>Pagina {{ pageAssign }}</span>
+      <button
+        class="small-btn"
+        (click)="nextPageAssign()"
+        [disabled]="!hasNextPageAssign()"
+      >
+        ➡️
+      </button>
+    </div>
+  </section>
+</div>

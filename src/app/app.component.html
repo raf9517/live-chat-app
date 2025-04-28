@@ -1,0 +1,87 @@
+<div class="layout-column">
+  <!-- Header sempre in alto -->
+  <header *ngIf="showHeader" class="header">
+    <div *ngIf="isOperator; else userHeader" class="header-operator">
+      <div class="left-menu">
+        <button class="menu-btn" (click)="toggleSidebar()">☰</button>
+        <h1>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="22"
+            height="22"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            class="chat-icon"
+          >
+            <path
+              d="M4 4h16v12H5.17L4 17.17V4zm0-2a2 2 0 0 0-2 2v20l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4z"
+            />
+          </svg>
+          Live Chat
+        </h1>
+      </div>
+      <div class="right-profile" title="Logout">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="28px"
+          width="28px"
+          viewBox="0 -960 960 960"
+          fill="#ffffff"
+        >
+          <path
+            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <ng-template #userHeader>
+      <div class="header-user">
+        <h1>Live Chat</h1>
+      </div>
+    </ng-template>
+  </header>
+
+  <!-- Menu orizzontale sotto header -->
+  <nav
+    *ngIf="showSidebar && isOperator"
+    [ngClass]="{ 'horizontal-menu': true, show: showSidebar && isOperator }"
+  >
+    <a
+      class="menu-item"
+      [ngClass]="{ active: activeSection === '' }"
+      (click)="clicksupport('/')"
+      >Are di Lavoro</a
+    >
+    <a
+      class="menu-item"
+      routerLink="/operator"
+      routerLinkActive="active"
+      [ngClass]="{ active: activeSection === '/operator' }"
+      (click)="clickoperator('/operator')"
+      >Assegnazione/Gestione</a
+    >
+    <a
+      class="menu-item"
+      routerLink="/bot-admin"
+      routerLinkActive="active"
+      [ngClass]="{ active: activeSection === '/bot-admin' }"
+      (click)="clickbot('/bot-admin')"
+      >Chatbot</a
+    >
+    <a
+      class="menu-item"
+      routerLink="/admin"
+      routerLinkActive="active"
+      [ngClass]="{ active: activeSection === '/admin' }"
+      (click)="clicadmin('/admin')"
+      >Contatti</a
+    >
+    <a class="menu-item">Impostazioni</a>
+  </nav>
+
+  <!-- Contenuto principale -->
+  <main class="main-content" [ngClass]="{ 'chat-page': ischatPage }">
+    <router-outlet></router-outlet>
+  </main>
+</div>
