@@ -110,7 +110,7 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
   private resetUnread() {
     if (this.isOperator && this.chatId) {
       updateDoc(doc(this.firestore, 'chats', this.chatId), {
-        unreadByOperator: false,
+        // unreadByOperator: true,
       });
     }
   }
@@ -137,7 +137,7 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
       const isOperator = this.currentUserId === 'operatore';
       if (isIncoming && isOperator) {
         updateDoc(doc(this.firestore, 'chats', this.chatId!), {
-          unreadByOperator: false,
+          // unreadByOperator: false,
         });
       }
       // Scrolla in fondo dopo aver ricevuto nuovi messaggi

@@ -415,6 +415,98 @@
   justify-content: space-between;
   gap: 1rem;
 }
+.chat-options-menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.chat-options-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  min-width: 180px;
+}
+
+.chat-options-dropdown select {
+  width: 100%;
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.dropdown-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.chat-header-row.enhanced {
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+}
+
+.status-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  background: transparent;
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: red;
+}
+
+.status-dot.online {
+  background: #4caf50;
+}
+
+.select-wrapper select {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+.chat-entry {
+  position: relative;
+}
+
+.chat-badge {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+.chat-btn.bell-toggle {
+  background: transparent;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #999;
+}
+
+.chat-btn.bell-toggle.active {
+  color: #f44336;
+}
 
 /* Responsive */
 @media (max-width: 1024px) {

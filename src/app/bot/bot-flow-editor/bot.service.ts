@@ -21,6 +21,9 @@ interface Operator {
 
 @Injectable({ providedIn: 'root' })
 export class BotService {
+  continueBotFlow(chatId: string, state: any) {
+    throw new Error('Method not implemented.');
+  }
   constructor(private firestore: Firestore) {}
   async getBotNode(nodeId: string): Promise<any> {
     const ref = doc(this.firestore, 'botFlow', nodeId);

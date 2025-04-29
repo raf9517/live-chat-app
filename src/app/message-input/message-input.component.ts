@@ -60,6 +60,9 @@ export class MessageInputComponent {
       lastMessage: this.message.trim(),
       lastUpdated: serverTimestamp(),
     };
+    if (!isUser) {
+      chatUpdates.unreadByOperator = false;
+    }
     if (isUser) {
       chatUpdates.archived = false;
       chatUpdates.unreadByOperator = true;

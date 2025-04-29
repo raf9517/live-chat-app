@@ -1,11 +1,19 @@
 <div class="dashboard-container">
   <div class="chat-list box">
-    <div class="chat-header-row">
-      <div class="chat-options-menu">
-        <button title="Opzioni">⋮</button>
-        <button (click)="toggleOnlineStatus()">
-          {{ getMyOperatorOnlineStatus() ? "🟢 Online" : "🔴 Offline" }}
-        </button>
+    <div class="chat-header-row enhanced">
+      <button class="status-btn" (click)="toggleOnlineStatus()">
+        <span
+          class="status-dot"
+          [class.online]="getMyOperatorOnlineStatus()"
+        ></span>
+        <span>{{ getMyOperatorOnlineStatus() ? "Online" : "Offline" }}</span>
+      </button>
+
+      <div class="select-wrapper">
+        <select [(ngModel)]="chatSortMode" (change)="applySort()">
+          <option value="latest">Recenti</option>
+          <option value="priority">Priorità</option>
+        </select>
       </div>
     </div>
 
@@ -15,10 +23,10 @@
         (click)="selectChat(chat.id)"
         [class.active]="chat.id === selectedChatId"
         [title]="chat.id"
+        class="chat-entry"
       >
-        <div class="dot" [class.unread]="chat.unreadByOperator">
-          {{ chat.id | slice : 0 : 2 }}
-        </div>
+        <div class="dot">{{ chat.id | slice : 0 : 2 }}</div>
+        <span *ngIf="chat.unreadByOperator" class="chat-badge"></span>
       </li>
     </ul>
   </div>
@@ -30,6 +38,14 @@
         🧑‍💻 <strong>{{ selectedChatId }}</strong>
       </div>
       <div class="chat-controls">
+        <button
+          class="chat-btn bell-toggle"
+          (click)="toggleNotification(selectedChatId)"
+          [class.active]="currentChatHasUnread"
+          title="Toggle notifica"
+        >
+          🔔
+        </button>
         <button class="chat-btn archive" (click)="archiveChat(selectedChatId)">
           Archivia
         </button>

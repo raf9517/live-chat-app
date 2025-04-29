@@ -79,6 +79,7 @@ export class OperatorDashboardComponent {
   private auth = inject(Auth);
   private router = inject(Router);
   operators: any[] = [];
+  chatSortMode: 'latest' | 'priority' = 'latest';
 
   constructor(private firestore: Firestore) {
     const chatsRef = collection(this.firestore, 'chats');
@@ -93,8 +94,6 @@ export class OperatorDashboardComponent {
     this.currentUserId = localStorage.getItem('chat_uid') ?? '';
 
     await this.loadOperators(); // aspetta di caricare
-    const onlineStatus = this.getMyOperatorOnlineStatus();
-    console.log('🟢 Stato online del mio operatore:', onlineStatus);
     if (!this.currentUid) return;
     const chatsRef = collection(this.firestore, 'chats');
     const q = query(chatsRef, where('assignedTo', '==', this.currentUid));
@@ -111,8 +110,9 @@ export class OperatorDashboardComponent {
     });
 
     this.chats$.subscribe((chats) => {
-      if (chats?.length && !this.selectedChatId) {
-        this.selectChat(chats[0].id);
+      const sorted = this.sortChats([...chats]);
+      if (sorted?.length && !this.selectedChatId) {
+        this.selectChat(sorted[0].id);
       }
     });
 
@@ -287,5 +287,52 @@ export class OperatorDashboardComponent {
     if (!this.currentUid) return false;
     const myOperator = this.operators.find((op) => op.uid === this.currentUid);
     return myOperator ? myOperator.online === true : false;
+  }
+
+  sortChats(chats: ChatItem[]): ChatItem[] {
+    if (this.chatSortMode === 'latest') {
+      return chats.sort(
+        (a, b) => b.lastUpdated?.seconds - a.lastUpdated?.seconds
+      );
+    }
+
+    if (this.chatSortMode === 'priority') {
+      return chats.sort((a, b) => {
+        // Se uno ha notifica e l'altro no, lo metti prima
+        if (a.unreadByOperator && !b.unreadByOperator) return -1;
+        if (!a.unreadByOperator && b.unreadByOperator) return 1;
+
+        // Se entrambi hanno o non hanno notifica → ordina per messaggio più vecchio
+        return (a.lastUpdated?.seconds || 0) - (b.lastUpdated?.seconds || 0);
+      });
+    }
+
+    return chats;
+  }
+
+  applySort() {
+    this.chats$.subscribe((chats) => {
+      this.chats$ = new Observable<ChatItem[]>((observer) => {
+        observer.next(this.sortChats([...chats]));
+      });
+    });
+  }
+
+  async markChatAsUnread(chatId: string) {
+    await updateDoc(doc(this.firestore, 'chats', chatId), {
+      unreadByOperator: true,
+    });
+    alert(`🔔 La chat ${chatId} è stata segnata come non letta`);
+  }
+
+  currentChatHasUnread = false;
+
+  toggleNotification(chatId: string) {
+    const newValue = !this.currentChatHasUnread;
+    updateDoc(doc(this.firestore, 'chats', chatId), {
+      unreadByOperator: newValue,
+    }).then(() => {
+      this.currentChatHasUnread = newValue;
+    });
   }
 }
