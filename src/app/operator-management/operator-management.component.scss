@@ -68,7 +68,6 @@
 }
 
 .chat-actions-top {
-  display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1rem;
@@ -207,7 +206,7 @@
 }
 
 .search-container input {
-  width: 100%;
+  width: 50%;
   padding: 0.5rem;
   border-radius: 12px;
   border: 1px solid #349c5b;

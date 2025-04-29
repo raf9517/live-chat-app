@@ -89,7 +89,9 @@
           [checked]="selectedChats.has(chat.id)"
         />
         <div class="chat-content">
-          <p><strong>ID:</strong> {{ chat.id }}</p>
+          <p>
+            <strong>{{ chat.id }}</strong>
+          </p>
           <p>
             <strong>Assegnata a:</strong>
             {{ findOperatorEmail(chat.assignedTo) }}
@@ -135,14 +137,7 @@
 
     <!-- Barra Azioni -->
     <div class="chat-actions-top">
-      <div class="left-controls">
-        <input
-          type="checkbox"
-          [checked]="areAllChatsSelected()"
-          (change)="toggleSelectAllChats($event)"
-        />
-        <label>Seleziona Tutte</label>
-      </div>
+      <div class="left-controls"></div>
 
       <div class="right-controls">
         <select [(ngModel)]="selectedOperatorUid">

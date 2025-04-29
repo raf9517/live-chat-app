@@ -21,6 +21,7 @@ export class OperatorManagementComponent implements OnInit {
   operators: any[] = [];
   chatsToAssign: any[] = [];
   activeChats: any[] = [];
+  disactivedChats: any[] = [];
 
   selectedChats: Set<string> = new Set();
   selectedOperatorUid: string = '';
@@ -61,6 +62,10 @@ export class OperatorManagementComponent implements OnInit {
 
     this.activeChats = snapshot.docs
       .filter((doc) => !doc.data()['archived']) // per il pannello delle chat assegnate
+      .map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    this.disactivedChats = snapshot.docs
+      .filter((doc) => !doc.data()['escalatedToHuman']) // per il pannello delle chat assegnate
       .map((doc) => ({ id: doc.id, ...doc.data() }));
   }
 
@@ -110,6 +115,9 @@ export class OperatorManagementComponent implements OnInit {
     for (const chatId of this.selectedChats) {
       await updateDoc(doc(this.firestore, 'chats', chatId), {
         assignedTo: this.selectedOperatorUid,
+        archived: false,
+        botState: 'operatore',
+        escalatedToHuman: true,
       });
     }
 
@@ -176,7 +184,7 @@ export class OperatorManagementComponent implements OnInit {
   // Paginazione Chat da Assegnare
   filteredChatsToAssign(): any[] {
     if (!this.searchTermAssign.trim()) {
-      return this.chatsToAssign;
+      return this.disactivedChats;
     }
     return this.chatsToAssign.filter((chat) =>
       chat.id.includes(this.searchTermAssign.trim())
