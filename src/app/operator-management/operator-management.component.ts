@@ -128,7 +128,12 @@ export class OperatorManagementComponent implements OnInit {
 
   async archiveChats(): Promise<void> {
     for (const chatId of this.selectedChats) {
-      await updateDoc(doc(this.firestore, 'chats', chatId), { archived: true });
+      await updateDoc(doc(this.firestore, 'chats', chatId), {
+        archived: true,
+        assignedTo: null,
+        botState: 'start',
+        escalatedToHuman: false,
+      });
     }
     this.selectedChats.clear();
     await this.loadChats();
