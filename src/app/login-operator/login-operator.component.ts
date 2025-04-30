@@ -24,13 +24,14 @@ export class LoginOperatorComponent {
   ) {}
 
   async login() {
-    this.error = null;
+    // this.error = null;
     try {
       const credential = await signInWithEmailAndPassword(
         this.auth,
         this.email,
         this.password
       );
+      console.log(credential);
       const uid = credential.user.uid;
 
       // 🔥 Leggi il ruolo da Firestore

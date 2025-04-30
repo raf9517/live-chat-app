@@ -32,7 +32,7 @@ export const appConfig: ApplicationConfig = {
       {
         path: 'operator',
         component: OperatorManagementComponent,
-        // canActivate: [operatorGuard],
+        canActivate: [operatorGuard],
       },
       {
         path: 'chat/:id',

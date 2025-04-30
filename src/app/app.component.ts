@@ -4,6 +4,9 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
+import { Injectable } from '@angular/core';
+import { getAuth, signOut } from 'firebase/auth';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -53,5 +56,24 @@ export class AppComponent {
   clicadmin(section: string) {
     this.activeSection = section;
     this.router.navigate(['/admin']);
+  }
+
+  async logout(): Promise<void> {
+    try {
+      // 1. Sign out Firebase
+      const auth = getAuth();
+      await signOut(auth);
+
+      // 2. Clear Local Storage
+      localStorage.clear();
+
+      // 3. Delete Firebase IndexedDB
+      // indexedDB.deleteDatabase('firebaseLocalStorageDb');
+
+      // 4. Redirect to login (opzionale)
+      this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Errore durante il logout:', error);
+    }
   }
 }

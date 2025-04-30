@@ -21,7 +21,7 @@ body {
   transform: translateX(-50%);
   width: calc(100% - 40px); /* spazio ai lati */
   max-width: 1400px;
-  background: #349c5b;
+  background: linear-gradient(to bottom, #4ec2a7, #1d9aa7);
   color: white;
   padding: 1rem 2rem;
   border-radius: 16px;
@@ -168,4 +168,17 @@ h1 {
   margin-top: 130px;
   padding: 0;
   overflow-y: auto;
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-text {
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
+  line-height: 1;
 }

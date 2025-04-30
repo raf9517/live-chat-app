@@ -1,55 +1,87 @@
 :host {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* ALTEZZA 100% viewport */
-  background: #e0e0e0; /* Sfondo pagina */
+  flex-direction: column;
+  height: 98vh;
+  background: linear-gradient(to bottom, #4ec2a7, #1d9aa7);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.login-container {
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.header {
+  position: absolute;
+  top: 0px;
+  left: 32px;
+}
+
+.brand {
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.card {
   width: 100%;
   max-width: 400px;
-  padding: 2rem;
-  background: #f5f5f5;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.login-container h1 {
+  padding: 2.5rem 2rem;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   text-align: center;
-  margin-bottom: 1rem;
 }
 
-.login-container h2 {
-  text-align: center;
-  margin-bottom: 3rem;
+.card h2 {
+  margin-bottom: 2rem;
+  color: #1d3557;
 }
 
-.login-container form {
+.card form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.login-container input {
-  padding: 0.75rem;
+.card input {
+  padding: 0.9rem;
   border-radius: 8px;
   border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
-.login-container button {
-  padding: 0.75rem;
+.card input:focus {
+  border-color: #1d3557;
+  outline: none;
+}
+
+.card button {
+  padding: 0.9rem;
   border: none;
   border-radius: 8px;
-  background-color: #4caf50;
-  color: white;
-  font-weight: bold;
+  background-color: #ffb703;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.login-container .error {
+.card button:hover {
+  background-color: #faa307;
+}
+
+.card .error {
   margin-top: 1rem;
   color: red;
-  font-size: 0.9rem;
-  text-align: center;
+  font-size: 0.95rem;
+}
+
+.logo {
+  height: 300px;
+  object-fit: contain;
 }

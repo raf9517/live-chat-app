@@ -4,23 +4,11 @@
     <div *ngIf="isOperator; else userHeader" class="header-operator">
       <div class="left-menu">
         <button class="menu-btn" (click)="toggleSidebar()">☰</button>
-        <h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
-            fill="currentColor"
-            viewBox="0 0 24 24"
-            class="chat-icon"
-          >
-            <path
-              d="M4 4h16v12H5.17L4 17.17V4zm0-2a2 2 0 0 0-2 2v20l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H4z"
-            />
-          </svg>
-          Live Chat
-        </h1>
+        <div class="logo-wrapper">
+          <span class="logo-text">Live Chat</span>
+        </div>
       </div>
-      <div class="right-profile" title="Logout">
+      <div class="right-profile" title="Logout" (click)="logout()">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="28px"
