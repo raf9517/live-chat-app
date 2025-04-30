@@ -83,6 +83,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.95rem;
+  margin-bottom: 10px;
 }
 .right-controls {
   display: flex;
@@ -183,8 +184,9 @@
   color: #c62828;
 }
 
-.danger:hover {
+.small-btn:hover {
   background: #fdd4d4;
+  color: #c62828;
 }
 
 /* --- SEZIONE "TUTTE LE CHAT" --- */

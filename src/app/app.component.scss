@@ -97,12 +97,12 @@ h1 {
 /* MENU ORIZZONTALE SOTTO HEADER */
 .horizontal-menu {
   position: fixed;
-  top: 100px; /* header height + distanza */
-  left: 15%;
+  top: 85px; /* header height + distanza */
+  left: 19%;
   transform: translateX(-50%);
   // width: calc(100% - 40px);
   max-width: 1400px;
-  background: #ffffff;
+  background: linear-gradient(to right, #b2dfdb, #80cbc4);
   border-bottom: 1px solid #ddd;
   padding: 0.75rem 2rem;
   display: flex;
@@ -126,7 +126,7 @@ h1 {
 /* VOCE MENU */
 .menu-item {
   font-weight: 500;
-  color: #333;
+  color: #004d40;
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 8px;

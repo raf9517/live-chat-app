@@ -67,6 +67,7 @@ export class BotFlowEditorComponent implements OnInit {
       availableFrom: [''], // 🔥 aggiunto
       availableTo: [''], // 🔥 aggiunto
       unavailableText: [''], // 🔥 aggiunto
+      order: Number,
     });
   }
 
@@ -100,6 +101,7 @@ export class BotFlowEditorComponent implements OnInit {
       availableFrom: value.availableFrom ?? '',
       availableTo: value.availableTo ?? '',
       unavailableText: value.unavailableText ?? '',
+      order: value.order,
     });
     alert('✅ Nodo salvato!');
     this.loadNodes();
@@ -144,6 +146,11 @@ export class BotFlowEditorComponent implements OnInit {
       escalate: data['escalate'] ?? false,
       expectInput: data['expectInput'],
       next: data['next'],
+      keywords: data['tekeywordsxt'] ?? [], // ✅ Salvi anche le keywords
+      availableFrom: data['availableFrom'] ?? '',
+      availableTo: data['availableTo'] ?? '',
+      unavailableText: data['unavailableText'] ?? '',
+      order: data['order'],
     });
 
     data['options']?.forEach((opt: any) => {

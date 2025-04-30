@@ -16,54 +16,61 @@
 
   <h2>Editor Flusso Bot</h2>
 
-  <form [formGroup]="form" (ngSubmit)="save()">
-    <label>🆔 Nodo ID</label>
-    <input formControlName="nodeId" placeholder="start, mercato..." />
+  <form [formGroup]="form" (ngSubmit)="save()" class="bot-form">
+    <div class="form-row">
+      <label>🆔 Nodo ID</label>
+      <input formControlName="nodeId" placeholder="start, mercato..." />
+    </div>
 
-    <hr />
-
-    <label>📝 Testo bot</label>
-    <textarea formControlName="text"></textarea>
-
-    <label>
-      <input type="checkbox" formControlName="escalate" />
-      Passa all'operatore se selezionato
-    </label>
-
-    <label>
-      <input type="checkbox" formControlName="expectInput" />
-      Aspetta risposta scritta dell’utente (expectInput)
-    </label>
-
-    <div *ngIf="form.get('expectInput')?.value">
-      <label for="next">Nodo successivo (next)</label>
-      <input formControlName="next" placeholder="ID del nodo successivo" />
+    <div class="form-row">
+      <label># Ordine</label>
+      <input type="number" formControlName="order" />
     </div>
 
     <hr />
 
-    <div class="field">
-      <label>🕘 Ora disponibile da (HH:MM)</label>
+    <div class="form-row">
+      <label>📝 Testo bot</label>
+      <textarea formControlName="text" rows="4"></textarea>
+    </div>
+
+    <div class="checkbox-group">
+      <label
+        ><input type="checkbox" formControlName="escalate" /> Passa
+        all'operatore</label
+      >
+      <label
+        ><input type="checkbox" formControlName="expectInput" /> Aspetta
+        risposta (expectInput)</label
+      >
+    </div>
+
+    <div class="form-row" *ngIf="form.get('expectInput')?.value">
+      <label>Nodo successivo</label>
+      <input formControlName="next" placeholder="ID prossimo nodo" />
+    </div>
+
+    <hr />
+
+    <div class="form-row">
+      <label>🕘 Disponibile da</label>
       <input type="time" formControlName="availableFrom" />
     </div>
 
-    <div class="field">
-      <label>🕙 Ora disponibile fino (HH:MM)</label>
+    <div class="form-row">
+      <label>🕙 Disponibile fino</label>
       <input type="time" formControlName="availableTo" />
     </div>
 
-    <div class="field">
+    <div class="form-row">
       <label>🚫 Messaggio fuori orario</label>
-      <textarea
-        formControlName="unavailableText"
-        placeholder="Operatore disponibile dalle 9 alle 20."
-      ></textarea>
+      <textarea formControlName="unavailableText" rows="2"></textarea>
     </div>
 
     <hr />
 
-    <div class="field">
-      <label for="keywords">🔑 Parole chiave</label>
+    <div class="form-row">
+      <label>🔑 Parole chiave</label>
       <div class="keyword-list">
         <span
           *ngFor="let k of keywords.controls; let i = index"
@@ -73,13 +80,14 @@
           <button type="button" (click)="removeKeyword(i)">❌</button>
         </span>
       </div>
-
-      <input
-        [(ngModel)]="newKeyword"
-        [ngModelOptions]="{ standalone: true }"
-        placeholder="Nuova keyword..."
-      />
-      <button (click)="addKeyword()">➕ Aggiungi</button>
+      <div class="keyword-add">
+        <input
+          [(ngModel)]="newKeyword"
+          [ngModelOptions]="{ standalone: true }"
+          placeholder="Nuova keyword..."
+        />
+        <button type="button" (click)="addKeyword()">➕</button>
+      </div>
     </div>
 
     <hr />
@@ -89,9 +97,10 @@
       <div
         *ngFor="let opt of options.controls; let i = index"
         [formGroupName]="i"
+        class="form-row"
       >
-        <input formControlName="text" placeholder="Testo pulsante" />
-        <input formControlName="next" placeholder="Prossimo nodo ID" />
+        <input formControlName="text" placeholder="Testo" />
+        <input formControlName="next" placeholder="Prossimo ID" />
         <button type="button" class="danger" (click)="removeOption(i)">
           ❌
         </button>
@@ -101,14 +110,13 @@
     <button type="button" class="secondary" (click)="addOption()">
       ➕ Aggiungi opzione
     </button>
-    <br /><br />
-    <hr />
-    <button type="submit" [disabled]="form.invalid">💾 Salva nodo</button>
-    <button type="button" class="secondary" (click)="newNode()">
-      🆕 Nuovo nodo
-    </button>
-    <button type="button" (click)="simulateNode()">
-      🧪 Simula in chat_test
-    </button>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="form.invalid">💾 Salva</button>
+      <button type="button" class="secondary" (click)="newNode()">
+        🆕 Nuovo
+      </button>
+      <button type="button" (click)="simulateNode()">🧪 Simula</button>
+    </div>
   </form>
 </div>

@@ -29,15 +29,6 @@
     <h2>Chat Attive</h2>
 
     <div class="chat-actions-top">
-      <div class="left-controls">
-        <input
-          type="checkbox"
-          [checked]="areAllChatsSelected()"
-          (change)="toggleSelectAllChats($event)"
-        />
-        <label>Seleziona Tutte</label>
-      </div>
-
       <div class="right-controls">
         <select [(ngModel)]="filterOperatorUid">
           <option value="">Tutte</option>
@@ -55,7 +46,7 @@
         </select>
 
         <button
-          class="small-btn primary"
+          class="small-btn"
           (click)="assignSelectedChats()"
           [disabled]="!selectedOperatorUid || selectedChats.size === 0"
         >
@@ -71,7 +62,7 @@
         </button>
 
         <button
-          class="small-btn danger"
+          class="small-btn"
           (click)="deleteChats()"
           [disabled]="selectedChats.size === 0"
         >
@@ -81,6 +72,14 @@
     </div>
 
     <!-- Lista Chat Attive -->
+    <div class="left-controls">
+      <input
+        type="checkbox"
+        [checked]="areAllChatsSelected()"
+        (change)="toggleSelectAllChats($event)"
+      />
+      <label>Seleziona Tutte</label>
+    </div>
     <div class="chats-list">
       <div class="chat-box" *ngFor="let chat of paginatedFilteredActiveChats()">
         <input

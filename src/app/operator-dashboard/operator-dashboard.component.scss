@@ -488,12 +488,13 @@
 
 .chat-badge {
   position: absolute;
-  top: 6px;
-  right: 8px;
+  top: 8px;
+  right: 33px;
   width: 10px;
   height: 10px;
   background-color: red;
   border-radius: 50%;
+  box-shadow: 0 0 0 5px red;
 }
 
 .chat-btn.bell-toggle {
