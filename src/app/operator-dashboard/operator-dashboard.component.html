@@ -62,7 +62,7 @@
   <!-- CHAT BLOCK PANEL -->
   <div class="extra-panel box" *ngIf="showRightPanel1">
     <button class="collapse-btn" (click)="showRightPanel1 = false">✖</button>
-    <p>📁 Chat Block</p>
+    <p><strong>Chat Block</strong></p>
 
     <!-- Campo di ricerca -->
     <input
@@ -70,6 +70,8 @@
       [(ngModel)]="searchQuery"
       placeholder="🔎 Cerca Chat Block..."
     />
+
+    <hr />
 
     <!-- Lista dei Chat Block -->
     <div class="chat-block-list">
@@ -92,12 +94,31 @@
           </button>
         </div>
 
-        <!-- Pulsante per inviare direttamente il testo -->
-        <button class="send-btn" (click)="sendBlockText(block.text)">
-          📩 Invia
-        </button>
+        <div class="chat-block-actions">
+          <button class="send-btn" (click)="sendBlockText(block.text)">
+            📩
+          </button>
+
+          <button
+            class="chat-block-btn edit"
+            (click)="editBlock(block)"
+            title="Modifica"
+          >
+            ✏️
+          </button>
+
+          <button
+            class="chat-block-btn delete"
+            (click)="deleteBlock(block.id)"
+            title="Elimina"
+          >
+            🗑️
+          </button>
+        </div>
       </div>
     </div>
+
+    <hr />
 
     <!-- Bottone per aggiungere un nuovo Chat Block -->
     <button class="new-chat-block-btn" (click)="openNewBlockForm()">
@@ -129,43 +150,47 @@
   </div>
 
   <!-- Extra panel 2 -->
-  <div class="extra-panel box" *ngIf="showRightPanel2">
+  <!-- <div class="extra-panel box" *ngIf="showRightPanel2">
     <button class="collapse-btn" (click)="showRightPanel2 = false">✖</button>
     <p>🧰 Altri strumenti</p>
   </div>
-</div>
+</div> -->
 
-<!-- Bottoni riapertura pannelli -->
-<button
-  class="reopen-btn"
-  *ngIf="!showRightPanel1"
-  (click)="showRightPanel1 = true"
->
-  ➕ Chat Block
-</button>
+  <!-- Bottoni riapertura pannelli -->
+  <button
+    class="reopen-btn"
+    *ngIf="!showRightPanel1"
+    (click)="showRightPanel1 = true"
+  >
+    ➕ Chat Block
+  </button>
 
-<button
+  <!-- <button
   class="reopen-btn reopen-btn-secondary"
   *ngIf="!showRightPanel2"
   (click)="showRightPanel2 = true"
 >
   ➕ Strumenti
-</button>
+</button> -->
 
-<!-- Modale Anteprima Messaggio -->
-<div class="modal-backdrop" *ngIf="showPreviewModal">
-  <div class="modal-content">
-    <h3>✉️ Anteprima Messaggio</h3>
+  <!-- Modale Anteprima Messaggio -->
+  <div class="modal-backdrop" *ngIf="showPreviewModal">
+    <div class="modal-content">
+      <h3>✉️ Anteprima Messaggio</h3>
 
-    <textarea [(ngModel)]="previewMessage" class="preview-textarea"></textarea>
+      <textarea
+        [(ngModel)]="previewMessage"
+        class="preview-textarea"
+      ></textarea>
 
-    <div class="modal-buttons">
-      <button class="send-btn" (click)="sendConfirmBlockText()">
-        ✅ Invia
-      </button>
-      <button class="cancel-btn" (click)="showPreviewModal = false">
-        ❌ Annulla
-      </button>
+      <div class="modal-buttons">
+        <button class="send-btn" (click)="sendConfirmBlockText()">
+          ✅ Invia
+        </button>
+        <button class="cancel-btn" (click)="showPreviewModal = false">
+          ❌ Annulla
+        </button>
+      </div>
     </div>
   </div>
 </div>

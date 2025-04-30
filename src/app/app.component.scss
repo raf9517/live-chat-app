@@ -1,8 +1,16 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* <--- importante se vuoi eliminare scroll */
+}
+
 .layout-column {
   display: flex;
   flex-direction: column;
+  height: 100%;
   overflow: hidden;
-  min-height: 100vh;
 }
 
 /* HEADER MODERNO */
@@ -139,9 +147,9 @@ h1 {
   overflow-y: auto;
   background: #f7f8fa;
   box-sizing: border-box;
-  height: 60%;
-  padding: 2rem;
-  margin-top: 0px; /* header + menu */
+  // height: 60%;
+  // padding: 2rem;
+  // margin-top: 0px; /* header + menu */
 
   &.login-page {
     margin-top: 0;
@@ -153,4 +161,11 @@ h1 {
     height: 100vh;
     padding: 0; /* login tutto schermo */
   }
+}
+
+.main-content.chat-page {
+  height: calc(100vh - 130px); // ← 70px header + 60px menu
+  margin-top: 130px;
+  padding: 0;
+  overflow-y: auto;
 }

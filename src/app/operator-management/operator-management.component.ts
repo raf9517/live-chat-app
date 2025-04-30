@@ -22,16 +22,13 @@ export class OperatorManagementComponent implements OnInit {
   chatsToAssign: any[] = [];
   activeChats: any[] = [];
   disactivedChats: any[] = [];
-
   selectedChats: Set<string> = new Set();
   selectedOperatorUid: string = '';
   filterOperatorUid: string = 'waiting';
   searchTermAssign: string = '';
-
   // Paginazione Chat Attive
   page: number = 1;
   pageSize: number = 10;
-
   // Paginazione Chat Assegnare
   pageAssign: number = 1;
   pageSizeAssign: number = 10;

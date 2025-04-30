@@ -335,4 +335,27 @@ export class OperatorDashboardComponent {
       this.currentChatHasUnread = newValue;
     });
   }
+
+  async deleteBlock(blockId: string) {
+    const confirmed = confirm(
+      `Eliminare definitivamente il blocco "${blockId}"?`
+    );
+    if (!confirmed) return;
+
+    try {
+      await deleteDoc(doc(this.firestore, 'chatBlocks', blockId));
+      alert(`🗑️ ChatBlock "${blockId}" eliminato con successo!`);
+
+      // Aggiorna la lista locale se serve
+      this.chatBlocks = this.chatBlocks.filter((b) => b.id !== blockId);
+
+      // Se era in editing, chiudi il form
+      if (this.editingBlockId === blockId) {
+        this.cancelBlockForm();
+      }
+    } catch (error) {
+      console.error("Errore durante l'eliminazione del ChatBlock:", error);
+      alert("❌ Errore durante l'eliminazione. Riprova.");
+    }
+  }
 }

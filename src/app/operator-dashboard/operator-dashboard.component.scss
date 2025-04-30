@@ -4,7 +4,7 @@
   padding: 1rem;
   gap: 1rem;
   box-sizing: border-box;
-  margin-top: 70px;
+  margin-top: 95px;
 }
 
 /* Box comune */
@@ -344,7 +344,7 @@
 
 .chat-block-input,
 .chat-block-textarea {
-  width: 100%;
+  width: 95%;
   margin-bottom: 8px;
   padding: 8px;
   border: 1px solid #ccc;
@@ -506,6 +506,61 @@
 
 .chat-btn.bell-toggle.active {
   color: #f44336;
+}
+
+.chat-block-actions {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.chat-block-actions button {
+  font-size: 14px;
+  padding: 4px 6px;
+  border: none;
+  background-color: 1e7f3e;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.chat-block-actions button:hover {
+  transform: scale(1.1);
+}
+
+.chat-block-btn {
+  font-size: 1rem;
+  padding: 6px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.chat-block-btn.edit {
+  background-color: #e0f7e9;
+  color: #1e7f3e;
+}
+
+.chat-block-btn.edit:hover {
+  background-color: #c5efd8;
+}
+
+.chat-block-btn.delete {
+  background-color: #ffe6e6;
+  color: #c62828;
+}
+
+.chat-block-btn.delete:hover {
+  background-color: #fdd4d4;
+}
+
+.chat-block-btn:focus {
+  outline: none;
 }
 
 /* Responsive */
