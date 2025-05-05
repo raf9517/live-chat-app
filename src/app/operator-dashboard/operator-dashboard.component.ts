@@ -358,4 +358,12 @@ export class OperatorDashboardComponent {
       alert("❌ Errore durante l'eliminazione. Riprova.");
     }
   }
+
+  sortMenuOpen: boolean = false;
+
+  setSortMode(mode: 'latest' | 'priority'): void {
+    this.chatSortMode = mode;
+    this.sortMenuOpen = false;
+    this.applySort();
+  }
 }

@@ -78,13 +78,6 @@
   border-bottom: 1px solid #eee; /* Sottolineatura leggera */
 }
 
-.left-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.95rem;
-  margin-bottom: 10px;
-}
 .right-controls {
   display: flex;
   align-items: center;
@@ -179,11 +172,6 @@
   background: #c5efd8;
 }
 
-.danger {
-  background: #ffe6e6;
-  color: #c62828;
-}
-
 .small-btn:hover {
   background: #fdd4d4;
   color: #c62828;
@@ -218,6 +206,91 @@
 section h2 {
   margin-bottom: 1rem;
   font-size: 1.5rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  width: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.left-controls {
+  margin-bottom: 10px;
+}
+
+.ellipsis-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+}
+
+.dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  margin-top: 0.5rem;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 0.5rem 0;
+  list-style: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  width: max-content;
+  min-width: 180px;
+}
+
+.dropdown-menu li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+.icon-label {
+  align-items: center;
+  cursor: pointer;
+  padding-left: 0.25rem;
+}
+
+.icon-label svg {
+  transition: fill 0.2s;
+}
+
+input[type="checkbox"]:checked + .icon-label svg {
+  fill: #2e7d32; /* Verde più acceso quando selezionato */
 }
 
 /* --- VERSIONE TABLET --- */
@@ -280,12 +353,6 @@ section h2 {
 
   /* Bottoni paginazione su mobile */
   .pagination-controls {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .chat-actions-top {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;

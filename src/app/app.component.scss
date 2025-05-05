@@ -97,8 +97,7 @@ h1 {
 /* MENU ORIZZONTALE SOTTO HEADER */
 .horizontal-menu {
   position: fixed;
-  top: 85px; /* header height + distanza */
-  left: 19%;
+  top: 70px; /* header height + distanza */
   transform: translateX(-50%);
   // width: calc(100% - 40px);
   max-width: 1400px;

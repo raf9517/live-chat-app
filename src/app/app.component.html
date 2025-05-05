@@ -28,45 +28,43 @@
         <h1>Live Chat</h1>
       </div>
     </ng-template>
+    <nav
+      *ngIf="showSidebar && isOperator"
+      [ngClass]="{ 'horizontal-menu': true, show: showSidebar && isOperator }"
+    >
+      <a
+        class="menu-item"
+        [ngClass]="{ active: activeSection === '' }"
+        (click)="clicksupport('/')"
+        >Are di Lavoro</a
+      >
+      <a
+        class="menu-item"
+        routerLink="/operator"
+        routerLinkActive="active"
+        [ngClass]="{ active: activeSection === '/operator' }"
+        (click)="clickoperator('/operator')"
+        >Assegnazione/Gestione</a
+      >
+      <a
+        class="menu-item"
+        routerLink="/bot-admin"
+        routerLinkActive="active"
+        [ngClass]="{ active: activeSection === '/bot-admin' }"
+        (click)="clickbot('/bot-admin')"
+        >Chatbot</a
+      >
+      <a
+        class="menu-item"
+        routerLink="/admin"
+        routerLinkActive="active"
+        [ngClass]="{ active: activeSection === '/admin' }"
+        (click)="clicadmin('/admin')"
+        >Contatti</a
+      >
+      <a class="menu-item">Impostazioni</a>
+    </nav>
   </header>
-
-  <!-- Menu orizzontale sotto header -->
-  <nav
-    *ngIf="showSidebar && isOperator"
-    [ngClass]="{ 'horizontal-menu': true, show: showSidebar && isOperator }"
-  >
-    <a
-      class="menu-item"
-      [ngClass]="{ active: activeSection === '' }"
-      (click)="clicksupport('/')"
-      >Are di Lavoro</a
-    >
-    <a
-      class="menu-item"
-      routerLink="/operator"
-      routerLinkActive="active"
-      [ngClass]="{ active: activeSection === '/operator' }"
-      (click)="clickoperator('/operator')"
-      >Assegnazione/Gestione</a
-    >
-    <a
-      class="menu-item"
-      routerLink="/bot-admin"
-      routerLinkActive="active"
-      [ngClass]="{ active: activeSection === '/bot-admin' }"
-      (click)="clickbot('/bot-admin')"
-      >Chatbot</a
-    >
-    <a
-      class="menu-item"
-      routerLink="/admin"
-      routerLinkActive="active"
-      [ngClass]="{ active: activeSection === '/admin' }"
-      (click)="clicadmin('/admin')"
-      >Contatti</a
-    >
-    <a class="menu-item">Impostazioni</a>
-  </nav>
 
   <!-- Contenuto principale -->
   <main class="main-content" [ngClass]="{ 'chat-page': ischatPage }">

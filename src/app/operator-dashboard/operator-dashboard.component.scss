@@ -19,8 +19,8 @@
 
 /* Chat list */
 .chat-list {
-  min-width: 50px;
-  max-width: 300px;
+  min-width: 30px;
+  max-width: 280px;
 }
 
 .chat-list ul {
@@ -42,7 +42,7 @@
 }
 
 .chat-list li.active {
-  background-color: #d0f0d8;
+  // background-color: #d0f0d8;
   font-weight: bold;
 }
 
@@ -266,16 +266,18 @@
 .chat-block-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 /* Singolo Chat Block */
 .chat-block-item {
-  background-color: #fafafa;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  padding: 10px;
-  transition: background-color 0.3s;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .chat-block-item:hover {
@@ -291,30 +293,24 @@
 
 /* Nome del Chat Block */
 .chat-block-name {
+  flex-grow: 1; /* prende tutto lo spazio centrale */
+  text-align: left;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-/* Stella preferiti */
-.star-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: gold;
+  padding: 0 0.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 /* Bottone invia */
 .send-btn {
-  margin-top: 6px;
-  width: 100%;
-  padding: 6px;
-  background-color: #4caf50;
-  color: white;
+  background: none;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .send-btn:hover {
@@ -446,11 +442,10 @@
   font-size: 0.85rem;
   color: #333;
 }
-
 .chat-header-row.enhanced {
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem;
+  display: flex;
+  align-items: center; /* verticale: allineamento al centro */
+  justify-content: space-between; /* distribuisce elementi agli estremi */
 }
 
 .status-btn {
@@ -489,7 +484,7 @@
 .chat-badge {
   position: absolute;
   top: 8px;
-  right: 33px;
+  right: 20px;
   width: 10px;
   height: 10px;
   background-color: red;
@@ -511,8 +506,9 @@
 
 .chat-block-actions {
   display: flex;
-  gap: 4px;
-  margin-top: 4px;
+  align-items: center;
+  width: 100%;
+  gap: 0.5rem;
 }
 
 .chat-block-actions button {
@@ -528,18 +524,16 @@
   transform: scale(1.1);
 }
 
-.chat-block-btn {
-  font-size: 1rem;
-  padding: 6px;
+.chat-block-btn,
+.star-btn {
+  background: none;
   border: none;
-  border-radius: 50%;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
 }
 
 .chat-block-btn.edit {
@@ -562,6 +556,44 @@
 
 .chat-block-btn:focus {
   outline: none;
+}
+
+.sort-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-menu {
+  position: absolute;
+  margin-top: 0.5rem;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 0.5rem 0;
+  list-style: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  width: max-content;
+}
+
+.dropdown-menu li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0;
 }
 
 /* Responsive */

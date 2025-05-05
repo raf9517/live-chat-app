@@ -32,6 +32,8 @@ export class OperatorManagementComponent implements OnInit {
   // Paginazione Chat Assegnare
   pageAssign: number = 1;
   pageSizeAssign: number = 10;
+  showAssignModal: boolean = false;
+  tempSelectedOperator: string = '';
 
   constructor(private firestore: Firestore) {}
 
@@ -106,12 +108,11 @@ export class OperatorManagementComponent implements OnInit {
 
   // Azioni su chat
   async assignSelectedChats(): Promise<void> {
-    console.log(this.selectedOperatorUid);
-    if (!this.selectedOperatorUid || this.selectedChats.size === 0) return;
+    if (!this.tempSelectedOperator || this.selectedChats.size === 0) return;
 
     for (const chatId of this.selectedChats) {
       await updateDoc(doc(this.firestore, 'chats', chatId), {
-        assignedTo: this.selectedOperatorUid,
+        assignedTo: this.tempSelectedOperator,
         archived: false,
         botState: 'operatore',
         escalatedToHuman: true,
@@ -119,7 +120,9 @@ export class OperatorManagementComponent implements OnInit {
     }
 
     this.selectedChats.clear();
-    this.selectedOperatorUid = '';
+    this.tempSelectedOperator = '';
+    this.showAssignModal = false;
+
     await this.loadChats();
   }
 
@@ -219,22 +222,10 @@ export class OperatorManagementComponent implements OnInit {
   resetPageAssign(): void {
     this.pageAssign = 1;
   }
+  menuOpen: boolean = false;
 
-  drop(event: CdkDragDrop<any>, operatorUid: string) {
-    const chat = event.item.data;
-    console.log('Drop ricevuto!');
-    console.log('Evento:', event);
-    console.log('Operatore UID:', operatorUid);
-
-    if (chat) {
-      const chatDocRef = doc(this.firestore, `chats/${chat.id}`);
-      updateDoc(chatDocRef, { assignedTo: operatorUid })
-        .then(() => {
-          console.log('Chat assegnata correttamente');
-        })
-        .catch((error) => {
-          console.error("Errore nell'assegnazione:", error);
-        });
-    }
+  setFilter(operatorUid: string): void {
+    this.filterOperatorUid = operatorUid;
+    this.menuOpen = false; // Chiude il menu dopo la selezione
   }
 }

@@ -1,20 +1,42 @@
 <div class="dashboard-container">
   <div class="chat-list box">
     <div class="chat-header-row enhanced">
+      <div
+        class="sort-dropdown-container"
+        (clickOutside)="sortMenuOpen = false"
+      >
+        <!-- Bottone trigger con icona SVG -->
+        <button
+          class="icon-button"
+          (click)="sortMenuOpen = !sortMenuOpen"
+          title="Ordina chat"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#000000"
+          >
+            <path
+              d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z"
+            />
+          </svg>
+        </button>
+
+        <!-- Dropdown menu -->
+        <ul class="dropdown-menu" *ngIf="sortMenuOpen">
+          <li (click)="setSortMode('latest')">Recenti</li>
+          <li (click)="setSortMode('priority')">Priorità</li>
+        </ul>
+      </div>
       <button class="status-btn" (click)="toggleOnlineStatus()">
         <span
           class="status-dot"
           [class.online]="getMyOperatorOnlineStatus()"
         ></span>
-        <span>{{ getMyOperatorOnlineStatus() ? "Online" : "Offline" }}</span>
+        <span>{{ getMyOperatorOnlineStatus() ? "On" : "Off" }}</span>
       </button>
-
-      <div class="select-wrapper">
-        <select [(ngModel)]="chatSortMode" (change)="applySort()">
-          <option value="latest">Recenti</option>
-          <option value="priority">Priorità</option>
-        </select>
-      </div>
     </div>
 
     <ul class="chat-dot-list">
@@ -35,7 +57,18 @@
   <div class="chat-detail box" [style.flexBasis.%]="chatDetailWidth">
     <div class="chat-header" *ngIf="selectedChatId">
       <div class="chat-user">
-        🧑‍💻 <strong>{{ selectedChatId }}</strong>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#000000"
+        >
+          <path
+            d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"
+          />
+        </svg>
+        <strong>{{ selectedChatId }}</strong>
       </div>
       <div class="chat-controls">
         <button
@@ -44,13 +77,51 @@
           [class.active]="currentChatHasUnread"
           title="Toggle notifica"
         >
-          🔔
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#000000"
+          >
+            <path
+              d="M160-200v-80h80v-280q0-83 50-147.5T420-792v-28q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v28q80 20 130 84.5T720-560v280h80v80H160Zm320-300Zm0 420q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM320-280h320v-280q0-66-47-113t-113-47q-66 0-113 47t-47 113v280Z"
+            />
+          </svg>
         </button>
-        <button class="chat-btn archive" (click)="archiveChat(selectedChatId)">
-          Archivia
+        <button
+          class="chat-btn archive"
+          title="Archivia"
+          (click)="archiveChat(selectedChatId)"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#000000"
+          >
+            <path
+              d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z"
+            />
+          </svg>
         </button>
-        <button class="chat-btn delete" (click)="deleteChat(selectedChatId)">
-          Elimina
+        <button
+          class="chat-btn delete"
+          title="Elimina"
+          (click)="deleteChat(selectedChatId)"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#000000"
+          >
+            <path
+              d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+            />
+          </svg>
         </button>
       </div>
     </div>
@@ -68,7 +139,7 @@
     <input
       class="chat-block-search"
       [(ngModel)]="searchQuery"
-      placeholder="🔎 Cerca Chat Block..."
+      placeholder="Cerca Chat Block..."
     />
 
     <hr />
@@ -76,13 +147,61 @@
     <!-- Lista dei Chat Block -->
     <div class="chat-block-list">
       <div class="chat-block-item" *ngFor="let block of filteredChatBlocks()">
-        <div class="chat-block-header">
-          <!-- Nome del Chat Block cliccabile per modifica -->
+        <div class="chat-block-actions">
+          <button class="send-btn" (click)="sendBlockText(block.text)">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#000000"
+            >
+              <path
+                d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"
+              />
+            </svg>
+          </button>
+
           <span class="chat-block-name" (click)="editBlock(block)">
             <strong>{{ block.name }}</strong>
           </span>
 
-          <!-- Stella preferito -->
+          <button
+            class="chat-block-btn edit"
+            (click)="editBlock(block)"
+            title="Modifica"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#000000"
+            >
+              <path
+                d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"
+              />
+            </svg>
+          </button>
+
+          <button
+            class="chat-block-btn delete"
+            (click)="deleteBlock(block.id)"
+            title="Elimina"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#000000"
+            >
+              <path
+                d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+              />
+            </svg>
+          </button>
+
           <button
             class="star-btn"
             (click)="toggleFavorite(block)"
@@ -91,28 +210,6 @@
             "
           >
             {{ block.favorite ? "⭐️" : "☆" }}
-          </button>
-        </div>
-
-        <div class="chat-block-actions">
-          <button class="send-btn" (click)="sendBlockText(block.text)">
-            📩
-          </button>
-
-          <button
-            class="chat-block-btn edit"
-            (click)="editBlock(block)"
-            title="Modifica"
-          >
-            ✏️
-          </button>
-
-          <button
-            class="chat-block-btn delete"
-            (click)="deleteBlock(block.id)"
-            title="Elimina"
-          >
-            🗑️
           </button>
         </div>
       </div>
