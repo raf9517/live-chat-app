@@ -1,0 +1,137 @@
+<!-- Container principale della dashboard -->
+<div class="management-container">
+  <!-- 🧑‍💼 Box Operatori -->
+  <section class="operators-section">
+    <h2>Operatori</h2>
+
+    <!-- Lista degli operatori con supporto Drag&Drop -->
+    <div class="operators-list">
+      <div
+        class="operator-box"
+        *ngFor="let operator of operators"
+        cdkDropList
+        [cdkDropListConnectedTo]="['chatsToAssignList']"
+        [cdkDropListData]="[]"
+      >
+        <!-- Intestazione dell’operatore -->
+        <div class="operator-header">
+          <span [ngClass]="operator.online ? 'badge-online' : 'badge-offline'">
+            {{ operator.online ? "🟢 Online" : "🔴 Offline" }}
+          </span>
+          <strong>{{ operator.email }}</strong>
+        </div>
+
+        <!-- Numero ticket assegnati -->
+        <div class="operator-info">
+          Ticket assegnati: {{ countAssignedTickets(operator.uid) }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📦 Box Tutte le Chat (da assegnare) -->
+  <section class="chats-section">
+    <h2>Tutte le Chat</h2>
+
+    <!-- Solo bottone Assegna -->
+    <div class="chat-actions-top">
+      <div class="left-controls"></div>
+      <div class="right-controls">
+        <button
+          class="small-btn"
+          (click)="showAssignModal = true"
+          [disabled]="selectedChats.size === 0"
+        >
+          🎯 Assegna
+        </button>
+      </div>
+    </div>
+
+    <!-- Ricerca per ID -->
+    <div class="search-container">
+      <input
+        type="text"
+        placeholder="🔎 Cerca chat per ID..."
+        [(ngModel)]="searchTermAssign"
+      />
+    </div>
+
+    <!-- Lista chat da assegnare -->
+    <div class="chats-list">
+      <div class="chat-box" *ngFor="let chat of paginatedChatsToAssign()">
+        <input
+          type="checkbox"
+          (change)="toggleSelection(chat.id)"
+          [checked]="selectedChats.has(chat.id)"
+        />
+        <div class="chat-content">
+          <p>
+            <strong>{{ chat.id }}</strong>
+          </p>
+          <small>
+            Ultimo aggiornamento:
+            {{ chat.lastUpdated?.toDate() | date : "dd/MM/yyyy HH:mm" }}
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paginazione per "Tutte le Chat" -->
+    <div class="pagination-controls">
+      <label>Mostra:</label>
+      <select [(ngModel)]="pageSizeAssign" (change)="resetPageAssign()">
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+        <option [value]="30">30</option>
+      </select>
+
+      <button
+        class="small-btn"
+        (click)="previousPageAssign()"
+        [disabled]="pageAssign === 1"
+      >
+        ⬅️
+      </button>
+      <span>Pagina {{ pageAssign }}</span>
+      <button
+        class="small-btn"
+        (click)="nextPageAssign()"
+        [disabled]="!hasNextPageAssign()"
+      >
+        ➡️
+      </button>
+    </div>
+  </section>
+</div>
+
+<!-- ✅ MODALE: Seleziona operatore per assegnazione -->
+<div class="modal-overlay" *ngIf="showAssignModal">
+  <div class="modal-box">
+    <h3>Seleziona un operatore</h3>
+
+    <!-- Selezione dell’operatore dal popup -->
+    <select [(ngModel)]="tempSelectedOperator">
+      <option value="" disabled selected>Scegli un operatore</option>
+      <option *ngFor="let operator of operators" [value]="operator.uid">
+        {{ operator.email }}
+      </option>
+    </select>
+
+    <!-- Azioni nel modale -->
+    <div class="modal-actions">
+      <!-- Conferma assegnazione: chiama la funzione TS -->
+      <button
+        class="small-btn primary"
+        (click)="assignSelectedChats()"
+        [disabled]="!tempSelectedOperator"
+      >
+        ✅ Conferma
+      </button>
+
+      <!-- Annulla e chiude il popup -->
+      <button class="small-btn" (click)="showAssignModal = false">
+        ❌ Annulla
+      </button>
+    </div>
+  </div>
+</div>

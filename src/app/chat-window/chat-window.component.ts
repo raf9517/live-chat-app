@@ -42,10 +42,12 @@ interface ChatMessage {
   styleUrls: ['./chat-window.component.scss'],
 })
 export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
+  [x: string]: any;
   @Input() chatId?: string; // input generico per routing o dashboard
   @ViewChild('chatBody') chatBody!: ElementRef<HTMLDivElement>;
   scrollToBottomPending = false;
   showScrollButton = true;
+  chatData: { userName?: string } = {};
 
   messages$!: Observable<ChatMessage[]>;
   currentUserId!: string;
@@ -115,9 +117,17 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  loadMessages() {
+  async loadMessages() {
     if (!this.chatId) return;
 
+    const chatRef = doc(this.firestore, 'chats', this.chatId);
+    const chatSnap = await getDoc(chatRef);
+    if (chatSnap.exists()) {
+      const chatInfo = chatSnap.data();
+      this.chatData = {
+        userName: chatInfo['userName'] || 'utente',
+      };
+    }
     const messagesRef = collection(
       this.firestore,
       'chats',

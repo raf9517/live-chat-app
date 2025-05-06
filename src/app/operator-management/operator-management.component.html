@@ -15,10 +15,10 @@
       >
         <!-- Intestazione dell’operatore -->
         <div class="operator-header">
+          <strong>{{ operator.nome }}</strong>
           <span [ngClass]="operator.online ? 'badge-online' : 'badge-offline'">
             {{ operator.online ? "🟢 Online" : "🔴 Offline" }}
           </span>
-          <strong>{{ operator.email }}</strong>
         </div>
 
         <!-- Numero ticket assegnati -->
@@ -33,10 +33,33 @@
   <section class="active-chats-section">
     <h2>Chat Attive</h2>
 
-    <!-- Azioni in alto: Assegna, Archivia, Elimina -->
-    <div class="chat-actions-top">
-      <div class="right-controls">
-        <!-- Apre il popup per assegnare le chat -->
+    <!-- Seleziona tutte + filtro operatori -->
+    <div class="left-controls">
+      <!-- MENU A TRE PUNTINI -->
+      <div class="dropdown-container" (clickOutside)="menuOpen = false">
+        <button class="ellipsis-btn" (click)="menuOpen = !menuOpen">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            viewBox="0 -960 960 960"
+            width="24px"
+            fill="#000000"
+          >
+            <path
+              d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z"
+            />
+          </svg>
+        </button>
+        <ul class="dropdown-menu" *ngIf="menuOpen">
+          <li (click)="setFilter('')">Tutte</li>
+          <li (click)="setFilter('waiting')">Solo in attesa</li>
+          <li
+            *ngFor="let operator of operators"
+            (click)="setFilter(operator.uid)"
+          >
+            {{ operator.nome }}
+          </li>
+        </ul>
         <button
           class="small-btn"
           (click)="showAssignModal = true"
@@ -63,55 +86,6 @@
           🗑 Elimina
         </button>
       </div>
-    </div>
-
-    <!-- Seleziona tutte + filtro operatori -->
-    <div class="left-controls">
-      <!-- ICONA CHECKBOX come label -->
-      <label
-        for="selectAllCheckbox"
-        class="icon-label"
-        title="Seleziona tutte le chat"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="24px"
-          viewBox="0 -960 960 960"
-          width="24px"
-          fill="#4caf50"
-        >
-          <path
-            d="M280-280v-400h400v400H280Zm80-80h240v-240H360v240ZM200-200v80q-33 0-56.5-23.5T120-200h80Zm-80-80v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm80-160h-80q0-33 23.5-56.5T200-840v80Zm80 640v-80h80v80h-80Zm0-640v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-640v-80h80v80h-80Zm160 640v-80h80v80h-80Zm0-640v-80h80v80h-80Zm160 640v-80h80q0 33-23.5 56.5T760-120Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80h80v80h-80Zm0-160v-80q33 0 56.5 23.5T840-760h-80Z"
-          />
-        </svg>
-      </label>
-
-      <!-- MENU A TRE PUNTINI -->
-      <div class="dropdown-container" (clickOutside)="menuOpen = false">
-        <button class="ellipsis-btn" (click)="menuOpen = !menuOpen">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#000000"
-          >
-            <path
-              d="M400-240v-80h160v80H400ZM240-440v-80h480v80H240ZM120-640v-80h720v80H120Z"
-            />
-          </svg>
-        </button>
-        <ul class="dropdown-menu" *ngIf="menuOpen">
-          <li (click)="setFilter('')">Tutte</li>
-          <li (click)="setFilter('waiting')">Solo in attesa</li>
-          <li
-            *ngFor="let operator of operators"
-            (click)="setFilter(operator.uid)"
-          >
-            {{ operator.email }}
-          </li>
-        </ul>
-      </div>
 
       <!-- CHECKBOX nascosto visivamente ma attivo -->
       <input
@@ -125,29 +99,73 @@
 
     <!-- Lista delle chat attive paginata -->
     <div class="chats-list">
-      <div class="chat-box" *ngFor="let chat of paginatedFilteredActiveChats()">
-        <!-- Selezione multipla -->
-        <input
-          type="checkbox"
-          (change)="toggleSelection(chat.id)"
-          [checked]="selectedChats.has(chat.id)"
-        />
-
-        <!-- Info chat -->
-        <div class="chat-content">
-          <p>
-            <strong>{{ chat.id }}</strong>
-          </p>
-          <p>
-            <strong>Assegnata a:</strong>
-            {{ findOperatorEmail(chat.assignedTo) }}
-          </p>
-          <small>
-            Ultimo aggiornamento:
-            {{ chat.lastUpdated?.toDate() | date : "dd/MM/yyyy HH:mm" }}
-          </small>
-        </div>
+      <div
+        *ngIf="paginatedFilteredActiveChats().length === 0"
+        class="placeholder-box"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="48px"
+          viewBox="0 -960 960 960"
+          width="48px"
+          fill="#999999"
+        >
+          <path
+            d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"
+          />
+        </svg>
+        <p>Nessuna chat attiva al momento.</p>
       </div>
+
+      <table
+        class="chat-table"
+        *ngIf="paginatedFilteredActiveChats().length > 0"
+      >
+        <thead>
+          <tr>
+            <th>
+              <label
+                for="selectAllCheckbox"
+                class="icon-label"
+                title="Seleziona tutte le chat"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#666666"
+                >
+                  <path
+                    d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Z"
+                  />
+                </svg>
+              </label>
+            </th>
+            <th>Utente</th>
+            <th>Operatore</th>
+            <th>Ultimo messaggio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let chat of paginatedFilteredActiveChats()">
+            <td>
+              <input
+                type="checkbox"
+                (change)="toggleSelection(chat.id)"
+                [checked]="selectedChats.has(chat.id)"
+              />
+            </td>
+            <td>
+              <strong>{{ chat.id }}</strong>
+            </td>
+            <td>{{ findOperatorEmail(chat.assignedTo) || "—" }}</td>
+            <td>
+              {{ chat.lastUpdated?.toDate() | date : "dd/MM/yyyy HH:mm" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- Paginazione -->
@@ -176,80 +194,6 @@
       </button>
     </div>
   </section>
-
-  <!-- 📦 Box Tutte le Chat (da assegnare) -->
-  <section class="chats-section">
-    <h2>Tutte le Chat</h2>
-
-    <!-- Solo bottone Assegna -->
-    <div class="chat-actions-top">
-      <div class="left-controls"></div>
-      <div class="right-controls">
-        <button
-          class="small-btn"
-          (click)="showAssignModal = true"
-          [disabled]="selectedChats.size === 0"
-        >
-          🎯 Assegna
-        </button>
-      </div>
-    </div>
-
-    <!-- Ricerca per ID -->
-    <div class="search-container">
-      <input
-        type="text"
-        placeholder="🔎 Cerca chat per ID..."
-        [(ngModel)]="searchTermAssign"
-      />
-    </div>
-
-    <!-- Lista chat da assegnare -->
-    <div class="chats-list">
-      <div class="chat-box" *ngFor="let chat of paginatedChatsToAssign()">
-        <input
-          type="checkbox"
-          (change)="toggleSelection(chat.id)"
-          [checked]="selectedChats.has(chat.id)"
-        />
-        <div class="chat-content">
-          <p>
-            <strong>{{ chat.id }}</strong>
-          </p>
-          <small>
-            Ultimo aggiornamento:
-            {{ chat.lastUpdated?.toDate() | date : "dd/MM/yyyy HH:mm" }}
-          </small>
-        </div>
-      </div>
-    </div>
-
-    <!-- Paginazione per "Tutte le Chat" -->
-    <div class="pagination-controls">
-      <label>Mostra:</label>
-      <select [(ngModel)]="pageSizeAssign" (change)="resetPageAssign()">
-        <option [value]="10">10</option>
-        <option [value]="20">20</option>
-        <option [value]="30">30</option>
-      </select>
-
-      <button
-        class="small-btn"
-        (click)="previousPageAssign()"
-        [disabled]="pageAssign === 1"
-      >
-        ⬅️
-      </button>
-      <span>Pagina {{ pageAssign }}</span>
-      <button
-        class="small-btn"
-        (click)="nextPageAssign()"
-        [disabled]="!hasNextPageAssign()"
-      >
-        ➡️
-      </button>
-    </div>
-  </section>
 </div>
 
 <!-- ✅ MODALE: Seleziona operatore per assegnazione -->
@@ -261,7 +205,7 @@
     <select [(ngModel)]="tempSelectedOperator">
       <option value="" disabled selected>Scegli un operatore</option>
       <option *ngFor="let operator of operators" [value]="operator.uid">
-        {{ operator.email }}
+        {{ operator.nome }}
       </option>
     </select>
 

@@ -48,6 +48,14 @@
       >
       <a
         class="menu-item"
+        routerLink="/archive"
+        routerLinkActive="active"
+        [ngClass]="{ active: activeSection === '/archive' }"
+        (click)="clicarchive('/archive')"
+        >Archivio</a
+      >
+      <a
+        class="menu-item"
         routerLink="/bot-admin"
         routerLinkActive="active"
         [ngClass]="{ active: activeSection === '/bot-admin' }"

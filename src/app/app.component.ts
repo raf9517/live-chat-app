@@ -57,6 +57,10 @@ export class AppComponent {
     this.activeSection = section;
     this.router.navigate(['/admin']);
   }
+  clicarchive(section: string) {
+    this.activeSection = section;
+    this.router.navigate(['/archive']);
+  }
 
   async logout(): Promise<void> {
     try {

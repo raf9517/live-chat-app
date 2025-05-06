@@ -62,7 +62,7 @@
   padding: 2rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   overflow-y: auto;
-  width: 100%;
+  width: 55%; /* Più grande */
   display: flex;
   flex-direction: column;
 }
@@ -291,61 +291,6 @@ section h2 {
 
 input[type="checkbox"]:checked + .icon-label svg {
   fill: #2e7d32; /* Verde più acceso quando selezionato */
-}
-
-.placeholder-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 550px; /* regola in base alla tua altezza minima */
-  height: 100%;
-  width: 100%;
-  border: 2px dashed #ccc;
-  border-radius: 12px;
-  color: #666;
-  font-style: italic;
-  text-align: center;
-  padding: 40px 20px;
-  box-sizing: border-box;
-}
-
-.placeholder-box svg {
-  margin-bottom: 10px;
-  width: 40px;
-  height: 40px;
-  fill: #aaa;
-}
-
-.chat-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.chat-table thead {
-  background-color: #f3f3f3;
-  text-align: left;
-}
-
-.chat-table th,
-.chat-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid #eee;
-}
-
-.chat-table tr:hover {
-  background-color: #fafafa;
-}
-
-.chat-table th:first-child,
-.chat-table td:first-child {
-  text-align: center;
-  width: 40px;
 }
 
 /* --- VERSIONE TABLET --- */

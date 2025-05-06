@@ -22,6 +22,8 @@ export class ManageUsersComponent implements OnInit {
   users: any[] = [];
   email = '';
   role = 'operator'; // default nuovo utente
+  nome = '';
+  cognome = '';
 
   constructor(private firestore: Firestore) {}
 
@@ -41,10 +43,15 @@ export class ManageUsersComponent implements OnInit {
     await addDoc(ref, {
       email: this.email.trim().toLowerCase(),
       role: this.role,
+      nome: this.nome,
+      cognome: this.cognome,
     });
 
     this.email = '';
     this.role = 'operator';
+    this.nome = '';
+    this.cognome = '';
+
     this.loadUsers();
   }
 

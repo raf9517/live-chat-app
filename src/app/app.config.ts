@@ -16,6 +16,7 @@ import { operatorGuard } from './auth-guard';
 import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { adminGuard } from './admin-guard';
 import { OperatorManagementComponent } from './operator-management/operator-management.component';
+import { OperatorArchiveComponent } from './operator-archive/operator-archive.component';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -49,6 +50,11 @@ export const appConfig: ApplicationConfig = {
         path: 'admin',
         component: ManageUsersComponent,
         // canActivate: [adminGuard],
+      },
+      {
+        path: 'archive',
+        component: OperatorArchiveComponent,
+        canActivate: [operatorGuard],
       },
     ]),
   ],

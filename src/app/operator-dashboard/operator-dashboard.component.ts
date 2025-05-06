@@ -80,6 +80,7 @@ export class OperatorDashboardComponent {
   private router = inject(Router);
   operators: any[] = [];
   chatSortMode: 'latest' | 'priority' = 'latest';
+  chatMetadata: { [id: string]: any } = {};
 
   constructor(private firestore: Firestore) {
     const chatsRef = collection(this.firestore, 'chats');
@@ -110,6 +111,9 @@ export class OperatorDashboardComponent {
     });
 
     this.chats$.subscribe((chats) => {
+      chats.forEach((chat) => {
+        this.chatMetadata[chat.id] = chat;
+      });
       const sorted = this.sortChats([...chats]);
       if (sorted?.length && !this.selectedChatId) {
         this.selectChat(sorted[0].id);
@@ -261,8 +265,9 @@ export class OperatorDashboardComponent {
     await updateDoc(chatBlockRef, { favorite: updatedFavorite });
   }
 
-  sendBlockText(text: string) {
-    this.previewMessage = text;
+  sendBlockText(rawText: string) {
+    const finalText = this.resolvePlaceholders(rawText);
+    this.previewMessage = finalText;
     this.showPreviewModal = true;
   }
 
@@ -365,5 +370,15 @@ export class OperatorDashboardComponent {
     this.chatSortMode = mode;
     this.sortMenuOpen = false;
     this.applySort();
+  }
+
+  resolvePlaceholders(text: string): string {
+    const userName = this.selectedChatId || 'utente';
+    const operator = this.operators.find((op) => op.uid === this.currentUid);
+    const operatorName = operator?.nome || 'operatore';
+
+    return text
+      .replace(/\$\$userName\$\$/g, userName)
+      .replace(/\$\$operatorName\$\$/g, operatorName);
   }
 }

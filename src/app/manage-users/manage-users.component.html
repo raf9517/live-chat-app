@@ -7,13 +7,20 @@
       <option value="operator">Operatore</option>
       <option value="admin">Admin</option>
     </select>
+    <input [(ngModel)]="nome" name="nome" placeholder="Nome" required />
+    <input
+      [(ngModel)]="cognome"
+      name="cognome"
+      placeholder="Cognome"
+      required
+    />
     <button type="submit">➕ Crea Utente</button>
   </form>
 
   <h3>Lista Utenti</h3>
   <ul>
     <li *ngFor="let user of users">
-      {{ user.email }} ({{ user.role }})
+      {{ user.nome }} - {{ user.email }} ({{ user.role }})
       <button (click)="deleteUser(user.uid)">🗑 Elimina</button>
     </li>
   </ul>
