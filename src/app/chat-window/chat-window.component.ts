@@ -25,6 +25,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BotService } from '../bot/bot-flow-editor/bot.service';
 import { RichTextPipe } from '../rich-text.pipe';
 import { SmartTextPipe } from '../smart-text.pipe';
+import { OperatorService } from '../operator-management/operator.service';
+import { Operator } from '../operator-management/operator.model';
 
 interface ChatMessage {
   options: any;
@@ -37,6 +39,7 @@ interface ChatMessage {
 @Component({
   selector: 'app-chat-window',
   standalone: true,
+  providers: [OperatorService],
   imports: [CommonModule, MessageInputComponent, SmartTextPipe],
   templateUrl: './chat-window.component.html',
   styleUrls: ['./chat-window.component.scss'],
@@ -55,14 +58,26 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
   private routeSub?: Subscription;
   msg: any;
   botTyping = false;
+  currentOperatorName: string = 'operatore';
 
   constructor(
     private firestore: Firestore,
     private route: ActivatedRoute,
-    private botService: BotService
+    private botService: BotService,
+    private operatorService: OperatorService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    const operatorUid = localStorage.getItem('operatorUid');
+    const allOperators = await this.operatorService.loadOperators();
+    const matchedOperator = allOperators.find((op) => op.uid === operatorUid);
+    if (matchedOperator) {
+      this.currentOperatorName = matchedOperator.nome;
+      console.log(this.currentOperatorName);
+      console.log('✅ Operatore attivo:', this.currentOperatorName);
+    } else {
+      console.warn('⚠️ Nessun operatore trovato per UID:', operatorUid);
+    }
     if (!this.chatId) {
       this.routeSub = this.route.paramMap.subscribe((params) => {
         const routeChatId = params.get('id');
@@ -90,7 +105,7 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['chatId'] && changes['chatId'].currentValue) {
-      this.currentUserId = 'operatore';
+      this.currentUserId = this.currentOperatorName;
       this.isOperator = true;
       this.loadMessages();
       this.resetUnread();
@@ -144,7 +159,7 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
       const last = messages[messages.length - 1];
 
       const isIncoming = last?.senderId !== this.currentUserId;
-      const isOperator = this.currentUserId === 'operatore';
+      const isOperator = this.currentUserId === this.currentOperatorName;
       if (isIncoming && isOperator) {
         updateDoc(doc(this.firestore, 'chats', this.chatId!), {
           // unreadByOperator: false,
@@ -168,7 +183,10 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
 
   getLabel(senderId: string): string {
     if (senderId === this.currentUserId) return 'Tu';
-    return this.isOperator ? senderId : '🎧 Supporto';
+    // Se chi legge è un operatore, mostra direttamente il nome dell'operatore mittente
+    if (this.isOperator) return senderId;
+    // Altrimenti (utente), mostra etichetta generica per supporto
+    return '🎧 Supporto';
   }
 
   async checkAndRunBot() {
@@ -194,6 +212,15 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
 
   isMyMessage(senderId: string): boolean {
     if (senderId === 'bot_fantacalcio') return false;
+
+    // Se sono operatore e ho già la lista degli operatori
+    if (this.isOperator && Array.isArray(this['allOperators'])) {
+      return this['allOperators'].some(
+        (op) => op.name.trim().toLowerCase() === senderId.trim().toLowerCase()
+      );
+    }
+
+    // Se sono utente
     return senderId === this.currentUserId;
   }
 
@@ -230,7 +257,7 @@ export class ChatWindowComponent implements OnInit, OnChanges, OnDestroy {
     const timestamp = new Date();
 
     await addDoc(messagesRef, {
-      senderId: 'operatore',
+      senderId: this.currentOperatorName,
       content: message.trim(),
       timestamp: timestamp,
       options: null,

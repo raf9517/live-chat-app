@@ -23,6 +23,8 @@ import { Router } from '@angular/router';
 import { v4 as uuidv4 } from 'uuid';
 import { FormsModule } from '@angular/forms';
 import { ViewChild } from '@angular/core';
+import { OperatorService } from '../operator-management/operator.service';
+import { Operator } from '../operator-management/operator.model';
 
 // INTERFACCE
 interface ChatItem {
@@ -44,6 +46,7 @@ export interface ChatBlock {
 @Component({
   selector: 'app-operator-dashboard',
   standalone: true,
+  providers: [OperatorService],
   imports: [CommonModule, RouterModule, ChatWindowComponent, FormsModule],
   templateUrl: './operator-dashboard.component.html',
   styleUrls: ['./operator-dashboard.component.scss'],
@@ -81,8 +84,12 @@ export class OperatorDashboardComponent {
   operators: any[] = [];
   chatSortMode: 'latest' | 'priority' = 'latest';
   chatMetadata: { [id: string]: any } = {};
+  currentOperatorName: string = 'operatore';
 
-  constructor(private firestore: Firestore) {
+  constructor(
+    private firestore: Firestore,
+    private operatorService: OperatorService
+  ) {
     const chatsRef = collection(this.firestore, 'chats');
     const q = query(chatsRef, where('assignedTo', '!=', null));
     this.chats$ = collectionData(q, { idField: 'id' }) as Observable<
@@ -91,6 +98,10 @@ export class OperatorDashboardComponent {
   }
 
   async ngOnInit() {
+    window.addEventListener(
+      'beforeunload',
+      this.setOperatorOfflineOnExit.bind(this)
+    );
     this.currentUid = localStorage.getItem('operatorUid');
     this.currentUserId = localStorage.getItem('chat_uid') ?? '';
 
@@ -121,6 +132,13 @@ export class OperatorDashboardComponent {
     });
 
     this.loadChatBlocks();
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener(
+      'beforeunload',
+      this.setOperatorOfflineOnExit.bind(this)
+    );
   }
 
   // CHAT LIST
@@ -380,5 +398,16 @@ export class OperatorDashboardComponent {
     return text
       .replace(/\$\$userName\$\$/g, userName)
       .replace(/\$\$operatorName\$\$/g, operatorName);
+  }
+
+  private async setOperatorOfflineOnExit(event: BeforeUnloadEvent) {
+    if (!this.currentUid) return;
+
+    try {
+      const operatorRef = doc(this.firestore, 'operators', this.currentUid);
+      await updateDoc(operatorRef, { online: false });
+    } catch (error) {
+      console.warn('❌ Impossibile aggiornare lo stato in uscita:', error);
+    }
   }
 }

@@ -9,6 +9,7 @@ import {
   getDocs,
   updateDoc,
 } from '@angular/fire/firestore';
+import { Operator } from './operator.model';
 
 @Component({
   selector: 'app-operator-management',
@@ -47,7 +48,7 @@ export class OperatorManagementComponent implements OnInit {
     this.operators = snapshot.docs.map((doc) => ({
       uid: doc.id,
       ...doc.data(),
-    }));
+    })) as unknown as Operator[];
   }
 
   private async loadChats(): Promise<void> {

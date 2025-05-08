@@ -25,7 +25,7 @@ export const adminGuard = () => {
           if (userData?.['role'] === 'admin') {
             return true;
           } else {
-            router.navigate(['/']);
+            router.navigate(['**']);
             return false;
           }
         })

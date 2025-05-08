@@ -14,10 +14,13 @@ import {
 } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { BotService } from '../bot/bot-flow-editor/bot.service';
+import { OperatorService } from '../operator-management/operator.service';
+import { Operator } from '../operator-management/operator.model';
 
 @Component({
   selector: 'message-input',
   standalone: true,
+  providers: [OperatorService],
   imports: [CommonModule, FormsModule],
   templateUrl: './message-input.component.html',
   styleUrls: ['./message-input.component.scss'],
@@ -28,18 +31,35 @@ export class MessageInputComponent {
 
   message = '';
   standaloneMode = false;
+  operators: Operator[] = [];
+  currentOperatorName: string = 'operatore';
 
   private firestore = inject(Firestore);
   private auth = inject(Auth);
 
-  constructor(private botService: BotService) {}
+  constructor(
+    private botService: BotService,
+    private operatorService: OperatorService
+  ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    const operatorUid = localStorage.getItem('operatorUid');
+    if (!operatorUid) return;
+    const allOperators = await this.operatorService.loadOperators();
+    const matchedOperator = allOperators.find((op) => op.uid === operatorUid);
+    if (matchedOperator) {
+      this.currentOperatorName = matchedOperator.nome;
+      console.log(this.currentOperatorName);
+      console.log('✅ Operatore attivo:', this.currentOperatorName);
+    } else {
+      console.warn('⚠️ Nessun operatore trovato per UID:', operatorUid);
+    }
     this.standaloneMode = window.location.pathname.includes('/utente');
   }
 
   async sendMessage() {
-    const senderId = localStorage.getItem('chat_uid') ?? 'operatore';
+    const senderId =
+      localStorage.getItem('chat_uid') ?? this.currentOperatorName;
     if (!this.chatId || !this.message.trim()) {
       console.warn('⛔ Messaggio non inviato: chatId o testo mancante');
       return;
@@ -55,7 +75,7 @@ export class MessageInputComponent {
       content: this.message.trim(),
       timestamp: serverTimestamp(),
     });
-    const isUser = senderId !== 'operatore';
+    const isUser = senderId !== this.currentOperatorName;
     const chatUpdates: any = {
       lastMessage: this.message.trim(),
       lastUpdated: serverTimestamp(),
